@@ -7,21 +7,25 @@
 </head>
 
 <h1>
-    Pladdict
+    pladdict
 </h1>
 
 <h2>
     Login
 </h2>
 
-<form action="" method="POST" novalidate>
-    {{form.hidden_tag()}}
-    <p>{{form.username.label}} <br> {{form.username()}}</p>
-    <p>{{form.password.label}} <br> {{form.password()}}</p>
-    <!--<p>{{form.remember_me.label}} <br> {{form.remember_me()}}</p>-->
-    <p>{{form.submit.label}} <br> {{form.submit()}}</p>
-    <p>New User? <a href="{{ url_for('signup') }}">Sign Up Here</a>
-    <p>
-</form>
+<h3>
+
+    <form action="" method="POST" novalidate>
+        {{form.hidden_tag()}}
+        <p>{{form.username.label}} <br> {{form.username()}}<br>
+        {{form.password.label}} <br> {{form.password()}} <br>
+        <!--<p>{{form.remember_me.label}} <br> {{form.remember_me()}}</p>-->
+        <!--<p>{{form.submit.label}} <br> {{form.submit()}}</p>-->
+        {{form.submit()}}</p>
+    
+        <p2>New User? <a href="{{ url_for('signup') }}">Sign Up Here</a> </p2>
+    </form>
+</h3>
 
 {% endblock %}

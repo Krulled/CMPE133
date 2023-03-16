@@ -133,17 +133,6 @@ def followers(username):
         num += 1
     return render_template('followers.html', user=user, num = num)
 
-#view following
-@plant_app.route('/user/<username>/following')
-@login_required
-def following(username):
-    user = User.query.filter_by(username=username).first()
-    num = 0
-    for following in user.followed:
-        num += 1
-
-    return render_template('following.html', user=user, num = num)
-
 #search user
 @plant_app.route('/user/<username>/search', methods=['POST', 'GET'])
 @login_required
