@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/base_style.css') }}">
+  <title>
+    Pladdict
+  </title>
+  <div>
+    Pladdict
+    {% if current_user.is_anonymous %}
+    {% else %}
+    <a href="{{ url_for('home', username=current_user.username) }}">Home</a>
+    <a href="{{ url_for('search', username=current_user.username) }}">Search</a>
+    <a href="{{ url_for('profile', username=current_user.username) }}">My Profile</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+
+  </div>
+  {% block mycontent %}{% endblock %}
+</head>
+
+</html>
