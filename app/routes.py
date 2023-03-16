@@ -1,6 +1,6 @@
 from app import plant_app, db
 from flask import render_template, redirect, flash, request, url_for
-from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, SearchForm
+from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, SearchUsersForm
 from app.models import User #, Message #, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
@@ -148,7 +148,7 @@ def following(username):
 @plant_app.route('/user/<username>/search', methods=['POST', 'GET'])
 @login_required
 def search(username):
-    current_form = SearchForm()
+    current_form = SearchUsersForm()
 
     #On submission, checks if data is acccepted by all field validators
     if current_form.validate_on_submit():

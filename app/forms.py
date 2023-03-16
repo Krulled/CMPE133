@@ -30,21 +30,15 @@ class PostForm(FlaskForm):
 
 #form for profile editing
 class EditProfileForm(FlaskForm):
-    #picture = FileField('Profile Picture')
-    newUsername = StringField('New Username')
+    #picture = FileField('Profile Picture')           <--- idk how to do this
+    #newUsername = StringField('New Username')
     newPassword = PasswordField('New Password')
     confirmPassword = PasswordField('Confirm Changes Using Password', validators=[DataRequired()])
-    newBio = TextAreaField('Bio', validators=[Length(min=0, max=250)]) #max bio length 250 char
+    #newBio = TextAreaField('Bio', validators=[Length(min=0, max=250)]) #max bio length 250 char
     submit = SubmitField('Confirm')
 
-    '''
-    def validate_newUsername(self, newUsername):
-        user = User.query.filter_by(username=newUsername.data).first_or_404()
-        if user is not None:
-            raise ValidationError('Choose another username.')
-    '''
-            
-class SearchForm(FlaskForm):
+#form for searching users         
+class SearchUsersForm(FlaskForm):
     search = StringField('Search For User', validators = [DataRequired()])
     submit = SubmitField('Search')
 

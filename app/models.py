@@ -10,12 +10,14 @@ followers = db.Table('followers',
             db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
             db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
 
+#user class
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(32), unique=True, nullable = False) #dont want username to be null, 32 characters max
     password = db.Column(db.String(32), nullable = False)
-    email = db.Column(db.String(64)) #, unique=True, nullable = False)
-    bio = db.Column(db.String(250))
+    email = db.Column(db.String(64), unique=True, nullable = False)
+    phone = db.Column(db.String(11))
+    #picture = db.Column(db.)
 
     #setting followed and user's relationship
     followed = db.relationship(
@@ -47,8 +49,8 @@ class User(db.Model, UserMixin):
     def set_username(self, username):
         self.username = username
 
-    def set_bio(self, bio):
-        self.bio = bio
+    def set_phone(self, phone):
+        self.phone = phone
 
     def set_email(self, email):
         self.email = email
