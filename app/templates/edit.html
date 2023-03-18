@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block mycontent %}
+<center>
+<body>
+    <h1>Delete Account</h1>
+    <p>
+        Confirm delete account: <br>
+        <br>
+        <button><a href="{{ url_for('home', username=current_user.username) }}">No</a></button>
+        <button><a href="{{ url_for('delete', username=current_user.username) }}">Yes</a></button>
+    </p>
+</body>
+</center>
+
+{% endblock %}

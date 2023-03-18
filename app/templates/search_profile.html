@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block mycontent %}
+<center>
+    <h1>{{username.username}}'s Profile</h1>
+
+    <p>
+
+    </p>
+
+    <p>
+        username: {{username.username}}
+        <button><a href="{{ url_for('message', username=current_user.username) }}">Message</a></button>
+    </p>
+
+    <p>
+        bio: {{username.bio}}
+    </p>
+
+    <p>
+        following
+        <button><a href="{{ url_for('following', username=username.username) }}">View</a></button>
+    </p>
+
+    <p>
+        followers
+        <button><a href="{{ url_for('followers', username=username.username) }}">View</a></button>
+    </p>
+
+    {% if not current_user.is_following(username)%}
+    <p>
+        <button><a href="{{ url_for('follow', username=username.username) }}">Follow</a></button>
+    </p>
+    {% else %}
+    <p>
+        <button><a href="{{ url_for('unfollow', username=username.username) }}">Unfollow</a></button>
+    </p>
+    {% endif %}
+</center>
+
+{% endblock %}
