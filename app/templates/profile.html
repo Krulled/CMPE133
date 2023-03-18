@@ -14,20 +14,6 @@
     </p>
 
     <p>
-        bio: {{user.bio}}
-    </p>
-    
-    <p>
-        following
-        <button><a href="{{ url_for('following', username=current_user.username) }}">View</a></button>
-    </p>
-
-    <p>
-        followers
-        <button><a href="{{ url_for('followers', username=current_user.username) }}">View</a></button>
-    </p>
-
-    <p>
         <button><a href="{{ url_for('deleteConfirm', username=current_user.username) }}">Delete Account</a></button>
     </p>
 </center>
