@@ -26,8 +26,6 @@ def login():
 
         # login user
         login_user(user, remember=current_form.remember_me.data)
-        #flash('quick way to debug')
-        #flash('another quick way to debug')
         print(current_form.username.data, current_form.password.data)
 
         #if login is successful, go to home page with username in url
@@ -45,7 +43,9 @@ def signup():
     if current_form.validate_on_submit():
         user = User(username=current_form.username.data)
         user.set_password(current_form.password.data)
-        user.set_bio("")
+        user.set_email(current_form.email.data)
+        if len(current_form.phone.data) != 0:
+            user.set_username(current_form.phone.data) 
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')

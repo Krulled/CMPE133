@@ -1,24 +1,28 @@
 body {
     background-color: rgb(255, 238, 219);
+    margin: 50px;
   }
-h1 {
+picture {
   color: rgb(29, 32, 31);
   font-family: trebuchet MS;
   font-size: 300%;
 }
-h2 {
-  color: rgb(87, 87, 97);
+p1 {
+  /*color: rgb(44, 50, 48);*/
+  color: rgb(29, 32, 31);
   font-family: helvetica;
   font-size: 200%;
 }
 h3{
-  background-position: left;
+  background-position: center;
   background-image: url(https://cdn.shopify.com/s/files/1/2493/0622/articles/plants_2_1200x1200.jpg?v=1612373685);
-
+  background-repeat: no-repeat;
+  background-size: cover;
+  /*margin-right: 50%;*/
 }
 p {
   width: 500px;
-  height: 300px;
+  height: 120px;
   text-align: center;
   color: rgb(29, 32, 31);
   font-family: helvetica;

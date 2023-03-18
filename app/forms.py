@@ -16,12 +16,19 @@ class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    email = StringField('Email', validators=[DataRequired()])
+    phone = StringField('Phone Number', validators=None)
     submit = SubmitField('Register')
 
     def validate_username(self, username):
         user = User.query.filter_by(username = username.data).first()
         if user is not None:        #username matches with one in a database
             raise ValidationError("Username already taken.")
+        
+    def validate_email(self, email):
+        email = User.query.filter_by(email = email.data).first()
+        if email is not None:        #email matches with one in a database
+            raise ValidationError("Email already taken.")
 
 #form for home page posts               <--- just beginning, not completed
 class PostForm(FlaskForm):

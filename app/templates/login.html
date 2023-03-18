@@ -6,16 +6,18 @@
     <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/login_style.css') }}">
 </head>
 
-<h1>
-    pladdict
-</h1>
-
-<h2>
-    Login
-</h2>
+    <!--pladdict-->
+    <center>
+    <picture>
+        <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297" alt="pladdict logo" style="width:340px;height:100px;">
+    </picture>
+    </center>
 
 <h3>
-
+    <center>
+    <p1>
+        Login
+    </p1>
     <form action="" method="POST" novalidate>
         {{form.hidden_tag()}}
         <p>{{form.username.label}} <br> {{form.username()}}<br>
@@ -26,6 +28,8 @@
     
         <p2>New User? <a href="{{ url_for('signup') }}">Sign Up Here</a> </p2>
     </form>
+    </center>
+    <br>
 </h3>
 
 {% endblock %}
