@@ -5,6 +5,11 @@ from app.models import User #, Message #, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 
+
+@plant_app.before_first_request
+def create_tables():
+    db.create_all()
+
 #login
 @plant_app.route('/', methods=['POST', 'GET'])
 def login():
@@ -45,7 +50,7 @@ def signup():
         user.set_password(current_form.password.data)
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
-            user.set_username(current_form.phone.data) 
+            user.set_phone(current_form.phone.data) 
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
