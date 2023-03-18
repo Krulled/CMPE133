@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block mycontent %}
+
+<head>
+    <title>{{user.username}}'s Home</title>
+</head>
+
+<body>
+    <h1>Welcome to pladdict!</h1>
+    <h2>Hello {{user.username}}</h2>
+    <br>
+    <br>
+    <form action="" method= "POST" novalidate>
+        {{form.hidden_tag()}}
+        <p>{{form.message.label}} <br> {{form.message()}}</p>
+        <p>{{form.post()}}</p>
+    </form>
+
+    {% for post in posts %}
+    <div class="post">
+        <p>{{ post.user.username }}</p>
+        <p>{{ post.content }}</p>
+    </div>
+    {% endfor %}
+    {% for post in posts %}
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content }}</p>
+    <hr>
+    {% endfor %}
+</body>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block mycontent %}
+<center>
+    <h2>You searched for user:</h2>
+    <p>
+        <a href="{{ url_for('searchProfile', username = username) }}">{{form.search.data}}</a>
+    </p>
+</center>
+{% endblock %}
+
+<div>
+    <h3>User Information</h3>
+    <p><strong>Name:</strong> {{user.name}}</p>
+    <p><strong>Username:</strong> {{user.username}}</p>
+    <p><strong>Email:</strong> {{user.email}}</p>
+    <p><strong>Bio:</strong> {{user.bio}}</p>
+</div>
+
+<div>
+    <h3>Send Private Message</h3>
+    <form method="POST" action="{{url_for('sendMessage')}}">
+        <div class="form-group">
+            <label>Message</label>
+            <textarea name="message" class="form-control" rows="3"></textarea>
+        </div>
+        <input type="hidden" name="recipient" value="{{user.username}}">
+        <input type="submit" class="btn btn-primary" value="Send Message">
+    </form>
+</div>
