@@ -18,6 +18,8 @@ class Post(db.Model):
     post_title = db.Column(db.String(32), nullable = False) # <--- posts do not currently have titles
     time_posted = db.Column(db.String(64), nullable = False)       
     post_content = db.Column(db.String(256), nullable = False)
+    # comments should be added as a db relationship (one post to many comments)
+    # number_of_likes = db.Column(db.Integer(), nullable = False)
 
     def set_author(self, author_id):
         self.author_id = author_id
