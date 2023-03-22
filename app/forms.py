@@ -19,6 +19,7 @@ class SignupForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     phone = StringField('Phone Number (Optional)', validators=None)
     submit = SubmitField('Register')
+    picture = FileField("Choose File")
 
     def validate_username(self, username):
         user = User.query.filter_by(username = username.data).first()
@@ -37,10 +38,12 @@ class PostForm(FlaskForm):
 
 #form for profile editing
 class EditProfileForm(FlaskForm):
-    #picture = FileField('Profile Picture')           <--- idk how to do this
+    picture = FileField('Profile Picture')
     #newUsername = StringField('New Username')
     newPassword = PasswordField('New Password')
     confirmPassword = PasswordField('Confirm Changes Using Password', validators=[DataRequired()])
+    newEmail = StringField('New Email')
+    newPhone = StringField('New Phone')
     #newBio = TextAreaField('Bio', validators=[Length(min=0, max=250)]) #max bio length 250 char
     submit = SubmitField('Confirm')
 

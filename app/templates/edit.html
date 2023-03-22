@@ -7,14 +7,29 @@
         {{ form.hidden_tag() }}
 
         <p>
+            {{form.picture.label}}<br>
+            {{form.picture()}} <br> <br>
+
             {{ form.newPassword.label }}<br>
             {{ form.newPassword(size=32) }}<br>
-        </p>
 
-        <p>
             {{ form.confirmPassword.label }}<br>
             {{ form.confirmPassword(size=32) }}<br>
             {% for error in form.confirmPassword.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            
+            <br>
+            {{form.newEmail.label }}<br>
+            {{form.newEmail(size=32) }}<br>
+            {% for error in form.newEmail.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+
+            <br>
+            {{form.newPhone.label }}<br>
+            {{form.newPhone(size=32) }}<br>
+            {% for error in form.newPhone.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
