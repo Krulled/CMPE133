@@ -5,10 +5,41 @@
 <body>
     <h1>Delete Account</h1>
     <p>
-        Confirm delete account: <br>
-        <br>
-        <button><a href="{{ url_for('home', username=current_user.username) }}">No</a></button>
-        <button><a href="{{ url_for('delete', username=current_user.username) }}">Yes</a></button>
+                <p1>Sign Up</p1>
+    <form action="" method="POST" novalidate>
+        {{form.hidden_tag()}}
+        <p>
+            #WORK ON FORM FOR EDITING PROFILE
+            {{form.username.label}} <br> 
+            {{form.username(size = 32)}} <br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+
+            {{form.password.label }}<br>
+            {{form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            
+            {{form.confirmPassword.label }}<br>
+            {{form.confirmPassword(size=32) }}<br>
+            {% for error in form.confirmPassword.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+
+            {{form.email.label }}<br>
+            {{form.email(size=32) }}<br>
+            {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+
+            {{form.phone.label }}<br>
+            {{form.phone(size=32) }}<br>
+            {% for error in form.phone.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            {{form.submit()}}</p>
     </p>
 </body>
 </center>

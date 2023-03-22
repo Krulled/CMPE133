@@ -5,6 +5,11 @@ from app.models import User #, Message #, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 
+
+@plant_app.before_first_request
+def create_tables():
+    db.create_all()
+
 #login
 @plant_app.route('/', methods=['POST', 'GET'])
 def login():
@@ -45,7 +50,7 @@ def signup():
         user.set_password(current_form.password.data)
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
-            user.set_username(current_form.phone.data) 
+            user.set_phone(current_form.phone.data) 
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
@@ -100,8 +105,11 @@ def edit(username):
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
 
-        #current_user.picture = current_form.picture.data
-
+        if len(current_form.newPicture.data) != 0:
+            user.set_profilePic(current_form.newPicture.data)
+            flash('Password changed!')
+            db.session.commit()
+        
         if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
