@@ -107,9 +107,15 @@ def edit(username):
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
 
+<<<<<<< HEAD
         if current_form.newPicture.data != None:
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
+=======
+        if len(current_form.newPicture.data) != 0:
+            user.set_profilePic(current_form.newPicture.data)
+            flash('Password changed!')
+>>>>>>> 79baa99 (adding profile png data to user database)
             db.session.commit()
         
         if len(current_form.newPassword.data) != 0:
