@@ -105,8 +105,11 @@ def edit(username):
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
 
-        #current_user.picture = current_form.picture.data
-
+        if len(current_form.newPicture.data) != 0:
+            user.set_profilePic(current_form.newPicture.data)
+            flash('Password changed!')
+            db.session.commit()
+        
         if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')

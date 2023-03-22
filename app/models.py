@@ -5,6 +5,7 @@ from flask_login import UserMixin
 
 #from datetime import datetime
 
+
 #table of followers
 followers = db.Table('followers',
             db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
@@ -54,6 +55,9 @@ class User(db.Model, UserMixin):
 
     def set_email(self, email):
         self.email = email
+        
+    def set_profilepic(self, profilePic):
+        self.profile = profilePic
 
     def __repr__(self):
         return f'<User {self.username}>'
