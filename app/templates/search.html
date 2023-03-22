@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block mycontent %}
+<center>
+    <h1>Search For User</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.search.label }}<br>
+            {{ form.search(size=32) }}<br>
+            {% for error in form.search.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <p>{{form.submit.label}} <br> {{form.submit()}}</p>
+
+    </form>
+</center>
+{% endblock %}
