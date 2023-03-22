@@ -11,6 +11,13 @@ followers = db.Table('followers',
             db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
             db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
 
+#post class
+class Post(db.Model):
+    post_id = db.Column(db.Integer, primary_key = True)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    time_posted = db.Column(db.String(64), nullable = False)        # datetime.utcnow()
+    post_content = db.Column(db.String(256), nullable = False)
+
 #user class
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
