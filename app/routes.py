@@ -1,7 +1,7 @@
 from app import plant_app, db
 from flask import render_template, redirect, flash, request, url_for
 from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, SearchUsersForm
-from app.models import User #, Message #, Post
+from app.models import User, Post #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -63,7 +63,7 @@ def signup():
 def logout():
     if current_user.is_authenticated:
         logout_user()
-        flash('You have logged out')
+        # flash('You have logged out')                  <--- commented this out b/c it does not appear
         return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
@@ -199,6 +199,16 @@ def unfollow(username):
 @login_required
 def home(username):
     current_form = PostForm()
+    if current_form.validate_on_submit():       # submitting a post
+        post = Post()
+        post.set_author(username)
+        post.set_post_title('test')             # <--- needs to be changed to add a title field in PostForm
+        post.set_time_posted()
+        post.set_post_content(current_form.message.data)
+        db.session.add(post)
+        db.session.commit()
+        flash('Posted!', 'success')
+        return redirect(url_for('home', username=username))
     user = User.query.filter_by(username=username).first_or_404()
     #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('home.html', user=user, form = current_form) #, messages=messages)
+    return render_template('home.html', user=user, form = current_form)

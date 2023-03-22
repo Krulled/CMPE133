@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import login
 from flask_login import UserMixin
 
-#from datetime import datetime
+from datetime import datetime
 
 
 #table of followers
@@ -15,8 +15,22 @@ followers = db.Table('followers',
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key = True)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    time_posted = db.Column(db.String(64), nullable = False)        # datetime.utcnow()
+    post_title = db.Column(db.String(32), nullable = False) # <--- posts do not currently have titles
+    time_posted = db.Column(db.String(64), nullable = False)       
     post_content = db.Column(db.String(256), nullable = False)
+
+    def set_author(self, author_id):
+        self.author_id = author_id
+    
+    def set_post_title(self, post_title):                
+        self.post_title = post_title
+    
+    def set_time_posted(self):
+        self.time_posted = datetime.utcnow()
+    
+    def set_post_content(self, post_content):
+        self.post_content = post_content
+
 
 #user class
 class User(db.Model, UserMixin):
