@@ -10,7 +10,8 @@
     .
     {% if current_user.is_anonymous %}
     {% else %}
-    <a href="{{ url_for('home', username=current_user.username) }}">Home</a>
+    <a href="{{ url_for('home', username=current_user.username) }}">Calendar</a>
+    <a href="{{ url_for('forum', username=current_user.username) }}">Community Forum</a>
     <a href="{{ url_for('search', username=current_user.username) }}">Search</a>
     <a href="{{ url_for('profile', username=current_user.username) }}">My Profile</a>
     <a href="{{ url_for('logout') }}">Logout</a>
