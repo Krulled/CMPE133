@@ -19,7 +19,7 @@ class SignupForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(message="Email required.")])
     phone = StringField('Phone Number (Optional)', validators=None)
     submit = SubmitField('Register')
-    profilepic = FileField("Choose File")
+    # profilepic = FileField("Choose File")
 
     def validate_username(self, username):
         user = User.query.filter_by(username = username.data).first()
