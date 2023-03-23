@@ -13,12 +13,13 @@ class LoginForm(FlaskForm):
 
 #form for account creation
 class SignupForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    email = StringField('Email', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired(message="Username required.")])
+    password = PasswordField('Password', validators=[DataRequired(message="Password required.")])
+    confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Password must match.')])
+    email = StringField('Email', validators=[DataRequired(message="Email required.")])
     phone = StringField('Phone Number (Optional)', validators=None)
     submit = SubmitField('Register')
+    profilepic = FileField("Choose File")
 
     def validate_username(self, username):
         user = User.query.filter_by(username = username.data).first()
@@ -37,10 +38,12 @@ class PostForm(FlaskForm):
 
 #form for profile editing
 class EditProfileForm(FlaskForm):
-    #picture = FileField('Profile Picture')           <--- idk how to do this
+    newPicture = FileField('Profile Picture')
     #newUsername = StringField('New Username')
     newPassword = PasswordField('New Password')
     confirmPassword = PasswordField('Confirm Changes Using Password', validators=[DataRequired()])
+    newEmail = StringField('New Email')
+    newPhone = StringField('New Phone')
     #newBio = TextAreaField('Bio', validators=[Length(min=0, max=250)]) #max bio length 250 char
     submit = SubmitField('Confirm')
 
@@ -53,8 +56,3 @@ class SearchUsersForm(FlaskForm):
         user = User.query.filter_by(username = username.data).first()
         if user is None:        #username does not match with one in a database
             raise ValidationError("There is no such user.")
-
-#form for private messaging
-class MessageForm(FlaskForm):
-    message = StringField('Enter a message', validators = [DataRequired()])
-    enter = SubmitField('Enter')

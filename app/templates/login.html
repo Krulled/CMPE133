@@ -11,6 +11,15 @@
     <picture>
         <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297" alt="pladdict logo" style="width:340px;height:100px;">
     </picture>
+
+    {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+    {% endfor %}
     </center>
 
 <h3>
@@ -20,11 +29,13 @@
     </p1>
     <form action="" method="POST" novalidate>
         {{form.hidden_tag()}}
-        <p>{{form.username.label}} <br> {{form.username()}}<br>
-        {{form.password.label}} <br> {{form.password()}} <br>
-        <!--<p>{{form.remember_me.label}} <br> {{form.remember_me()}}</p>-->
-        <!--<p>{{form.submit.label}} <br> {{form.submit()}}</p>-->
-        {{form.submit()}}</p>
+        <p>
+            {{form.username.label}} <br> {{form.username()}}<br>
+            {{form.password.label}} <br> {{form.password()}} <br>
+            <!--<p>{{form.remember_me.label}} <br> {{form.remember_me()}}</p>-->
+            <!--<p>{{form.submit.label}} <br> {{form.submit()}}</p>-->
+            {{form.submit()}}
+        </p>
     
         <p2>New User? <a href="{{ url_for('signup') }}">Sign Up Here</a> </p2>
     </form>

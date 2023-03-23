@@ -1,47 +1,45 @@
 {% extends "base.html" %}
 
 {% block mycontent %}
-<center>
-<body>
-    <h1>Delete Account</h1>
-    <p>
-                <p1>Sign Up</p1>
-    <form action="" method="POST" novalidate>
-        {{form.hidden_tag()}}
-        <p>
-            #WORK ON FORM FOR EDITING PROFILE
-            {{form.username.label}} <br> 
-            {{form.username(size = 32)}} <br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
 
-            {{form.password.label }}<br>
-            {{form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            
-            {{form.confirmPassword.label }}<br>
-            {{form.confirmPassword(size=32) }}<br>
+<head>
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/edit_style.css') }}">
+</head>
+
+<center>
+    <h1>Edit Profile</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{form.newPicture.label}}<br>
+            {{form.newPicture()}} <br> <br>
+
+            {{ form.newPassword.label }}<br>
+            {{ form.newPassword(size=32) }}<br>
+
+            {{ form.confirmPassword.label }}<br>
+            {{ form.confirmPassword(size=32) }}<br>
             {% for error in form.confirmPassword.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-
-            {{form.email.label }}<br>
-            {{form.email(size=32) }}<br>
-            {% for error in form.email.errors %}
+            
+            <br>
+            {{form.newEmail.label }}<br>
+            {{form.newEmail(size=32) }}<br>
+            {% for error in form.newEmail.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
 
-            {{form.phone.label }}<br>
-            {{form.phone(size=32) }}<br>
-            {% for error in form.phone.errors %}
+            <br>
+            {{form.newPhone.label }}<br>
+            {{form.newPhone(size=32) }}<br>
+            {% for error in form.newPhone.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-            {{form.submit()}}</p>
-    </p>
-</body>
+        
+            {{form.submit.label}} <br> {{form.submit()}}</p>
+
+    </form>
 </center>
-
 {% endblock %}
