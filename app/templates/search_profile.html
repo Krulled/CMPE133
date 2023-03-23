@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block mycontent %}
+
+<head>
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/edit_style.css') }}">
+</head>
+
 <center>
     <h1>{{username.username}}'s Profile</h1>
 

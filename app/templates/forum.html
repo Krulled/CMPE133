@@ -13,15 +13,15 @@
     </picture>
 
 <body>
-    <h1>Welcome to pladdict!</h1>
     <h2>Hello {{user.username}}</h2>
     <br>
     <br>
-
     <form action="" method= "POST" novalidate>
         {{form.hidden_tag()}}
-        <p>{{form.message.label}} <br> {{form.message()}}</p>
-        <p>{{form.post()}}</p>
+        <p>
+            {{form.message.label}} <br> {{form.message()}} <br>
+            {{form.post()}}
+        </p>
     </form>
 
     {% for post in posts %}
@@ -31,23 +31,9 @@
     </div>
     {% endfor %}
     {% for post in posts %}
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.content }}</p>
-    <hr>
+    {{ post.title }}
+    {{ post.content }}
     {% endfor %}
-
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
-    <p>
-        [insert calendar here]
-    </p>
-
 </body>
 
 </center>
