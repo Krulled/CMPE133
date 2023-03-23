@@ -3,13 +3,19 @@
 {% block mycontent %}
 <center>
     <h1>{{user.username}}'s Profile</h1>
-
+    <center>
+        <picture>
+            <img src="https://www.coachcarson.com/wp-content/uploads/2018/09/Chad-Profile-pic-circle-300x300.png" alt="pladdict logo" style="width:340px;height:300px;">
+        </picture>
+    </center>
     <p>
         
     </p>
 
     <p>
-        username: {{user.username}}
+        Username: {{user.username}}<br>
+        Email address: {{user.email}}<br>
+        Phone number: {{user.phone}}<br>
         <button><a href="{{ url_for('edit', username=current_user.username) }}">Edit</a></button>
     </p>
 
