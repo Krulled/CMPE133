@@ -33,7 +33,6 @@ class SignupForm(FlaskForm):
 
 #form for home page posts               <--- just beginning, not completed
 class PostForm(FlaskForm):
-    # title = TextAreaField('Enter a title', validators = [DataRequired()])
     message = TextAreaField('Enter a message', validators = [DataRequired()])
     post = SubmitField('Post')
 
