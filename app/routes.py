@@ -108,6 +108,7 @@ def edit(username):
             return redirect(url_for('edit', username=username))
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         if current_form.newPicture.data != None:
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
@@ -116,6 +117,11 @@ def edit(username):
             user.set_profilePic(current_form.newPicture.data)
             flash('Password changed!')
 >>>>>>> 79baa99 (adding profile png data to user database)
+=======
+        if len(current_form.newPicture.data) != 0:
+            user.set_profilePic(current_form.newPicture.data)
+            flash('Password changed!')
+>>>>>>> 08d67ee (changes)
             db.session.commit()
         
         if len(current_form.newPassword.data) != 0:
