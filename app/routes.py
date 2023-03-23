@@ -114,8 +114,11 @@ def edit(username):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 7cea868 (ch)
+=======
+>>>>>>> 5a29eb8 (ch)
         if current_form.newPicture.data != None:
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
@@ -152,7 +155,15 @@ def edit(username):
 >>>>>>> d43a2a6 (changes)
 =======
 >>>>>>> 53cebc6 (changes)
+<<<<<<< HEAD
 >>>>>>> 7cea868 (ch)
+=======
+=======
+        if current_form.newPicture.data != None:
+            user.set_profilepic(current_form.newPicture.data)
+            flash('Picture changed!')
+>>>>>>> 627f0af (changes1)
+>>>>>>> 5a29eb8 (ch)
             db.session.commit()
         
         if len(current_form.newPassword.data) != 0:
