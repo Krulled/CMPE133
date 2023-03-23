@@ -6,6 +6,13 @@ from flask_login import UserMixin
 #from datetime import datetime
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 53cebc6 (changes)
+>>>>>>> 7cea868 (ch)
 #table of followers
 followers = db.Table('followers',
             db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
@@ -86,6 +93,7 @@ class User(db.Model, UserMixin):
 =======
         
 <<<<<<< HEAD
+<<<<<<< HEAD
     def set_profilepic(self, profilePic):
         self.profile = profilePic
 >>>>>>> 6d5c92e (adding profile png data to user database)
@@ -93,6 +101,14 @@ class User(db.Model, UserMixin):
     def set_profilepic(self, profilepic):
         self.profilepic = profilepic
 >>>>>>> d43a2a6 (changes)
+=======
+    def set_profilepic(self, profilepic):
+        self.profilepic = profilepic
+=======
+    def set_profilepic(self, profilePic):
+        self.profile = profilePic
+>>>>>>> 53cebc6 (changes)
+>>>>>>> 7cea868 (ch)
 
     def __repr__(self):
         return f'<User {self.username}>'
