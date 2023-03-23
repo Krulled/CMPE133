@@ -57,6 +57,7 @@ class User(db.Model, UserMixin):
         self.email = email
         
 <<<<<<< HEAD
+<<<<<<< HEAD
     def set_profilepic(self, profilepic):
         self.profilepic = profilepic
 =======
@@ -66,7 +67,14 @@ class User(db.Model, UserMixin):
 >>>>>>> 79baa99 (adding profile png data to user database)
 =======
 >>>>>>> 53cebc6 (changes)
+<<<<<<< HEAD
 >>>>>>> 08d67ee (changes)
+=======
+=======
+    def set_profilepic(self, profilepic):
+        self.profilepic = profilepic
+>>>>>>> 627f0af (changes1)
+>>>>>>> 2123a7d (changes)
 
     def __repr__(self):
         return f'<User {self.username}>'
