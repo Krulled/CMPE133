@@ -17,6 +17,7 @@ h3{
   background-position: center;
   background-image: url(https://cdn.shopify.com/s/files/1/2493/0622/articles/plants_2_1200x1200.jpg?v=1612373685);
   background-repeat: no-repeat;
+<<<<<<< HEAD
   background-size: cover;
   margin-right: 50%;
   background-size: cover; 
@@ -25,6 +26,11 @@ h3{
   background-size: cover; 
   /*margin-right: 50%;
 }*/
+=======
+  background-size: cover; 
+  /*margin-right: 50%;*/
+}
+>>>>>>> 4cd9a66 (changes)
 p {
   width: 500px;
   height: 300px;
