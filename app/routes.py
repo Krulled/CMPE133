@@ -111,6 +111,7 @@ def edit(username):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         if current_form.newPicture.data != None:
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
@@ -134,6 +135,11 @@ def edit(username):
             user.set_profilePic(current_form.newPicture.data)
             flash('Password changed!')
 >>>>>>> main
+=======
+        if len(current_form.newPicture.data) != 0:
+            user.set_profilePic(current_form.newPicture.data)
+            flash('Password changed!')
+>>>>>>> 6d5c92e (adding profile png data to user database)
             db.session.commit()
         
         if len(current_form.newPassword.data) != 0:
