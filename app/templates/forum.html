@@ -13,13 +13,27 @@
     </picture>
 
 <body>
-    <h1>Welcome to pladdict!</h1>
     <h2>Hello {{user.username}}</h2>
     <br>
     <br>
-    <p>
-        [insert calendar here]
-    </p>
+    <form action="" method= "POST" novalidate>
+        {{form.hidden_tag()}}
+        <p>
+            {{form.message.label}} <br> {{form.message()}} <br>
+            {{form.post()}}
+        </p>
+    </form>
+
+    {% for post in posts %}
+    <div class="post">
+        <p>{{ post.user.username }}</p>
+        <p>{{ post.content }}</p>
+    </div>
+    {% endfor %}
+    {% for post in posts %}
+    {{ post.title }}
+    {{ post.content }}
+    {% endfor %}
 </body>
 
 </center>

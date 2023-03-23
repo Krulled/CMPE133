@@ -24,7 +24,7 @@ def login():
         user = User.query.filter_by(username=current_form.username.data).first()
 
         # check user's password with what is saved on the database
-        if user is None or not user.check_password(current_form.password.data):
+        if user is None or not user.check_password(current_form.password.data): 
             flash('Invalid password!')
             # if passwords don't match, send user to login again
             return redirect(url_for('login'))
@@ -51,6 +51,8 @@ def signup():
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
             user.set_phone(current_form.phone.data) 
+        if len(current_form.profilepic.data) != 0:
+            user.set_profilepic(current_form.profilepic.data) 
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
@@ -105,28 +107,16 @@ def edit(username):
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
 
-        if len(current_form.newPicture.data) != 0:
-            user.set_profilePic(current_form.newPicture.data)
-            flash('Password changed!')
+        if current_form.newPicture.data != None:
+            user.set_profilepic(current_form.newPicture.data)
+            flash('Picture changed!')
             db.session.commit()
         
         if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
             db.session.commit()
-        if len(current_form.newBio.data) != 0:
-            user.set_bio(current_form.newBio.data) 
-            flash('Bio changed!')
-            db.session.commit()
-        if len(current_form.newUsername.data) != 0:
-            name = User.query.filter_by(username=current_form.newUsername.data).first()
-            print(name)
-            if name is not None:
-                flash('Choose another username')
-                return redirect(url_for('edit', username=username))
-            user.set_username(current_form.newUsername.data) 
-            flash('Username changed!')
-            db.session.commit()
+
         return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
@@ -198,7 +188,16 @@ def unfollow(username):
 @plant_app.route('/user/<username>/home', methods = ['POST', 'GET'])
 @login_required
 def home(username):
+    #current_form = PostForm()
+    user = User.query.filter_by(username=username).first_or_404()
+    #messages = Message.query.filter_by(user_id=user.id).all()
+    return render_template('home.html', user=user) #, messages=messages)
+
+#view forum page
+@plant_app.route('/user/<username>/forum', methods = ['POST', 'GET'])
+@login_required
+def forum(username):
     current_form = PostForm()
     user = User.query.filter_by(username=username).first_or_404()
     #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('home.html', user=user, form = current_form) #, messages=messages)
+    return render_template('forum.html', user=user, form = current_form) #, messages=messages)

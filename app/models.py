@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(32), nullable = False)
     email = db.Column(db.String(64), unique=True, nullable = False)
     phone = db.Column(db.String(11))
-    #picture = db.Column(db.)
+    profilepic = db.Column(db.String(), nullable = True)
 
     #setting followed and user's relationship
     followed = db.relationship(
@@ -56,8 +56,8 @@ class User(db.Model, UserMixin):
     def set_email(self, email):
         self.email = email
         
-    def set_profilepic(self, profilePic):
-        self.profile = profilePic
+    def set_profilepic(self, profilepic):
+        self.profilepic = profilepic
 
     def __repr__(self):
         return f'<User {self.username}>'
