@@ -19,6 +19,7 @@ h3{
   background-repeat: no-repeat;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   background-size: cover;
   margin-right: 50%;
 =======
@@ -30,6 +31,10 @@ h3{
   margin-right: 50%;
 >>>>>>> f635bf6 (ch)
 }
+=======
+  background-size: cover; 
+  /*margin-right: 50%;}*/
+>>>>>>> 45c500d (adding profile png data to user database)
 p {
   width: 500px;
   height: 300px;
