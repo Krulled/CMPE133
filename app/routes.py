@@ -118,6 +118,7 @@ def edit(username):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 7cea868 (ch)
 =======
@@ -126,6 +127,8 @@ def edit(username):
 >>>>>>> 45c500d (adding profile png data to user database)
 =======
 >>>>>>> aa355c3 (changes)
+=======
+>>>>>>> 00d4ad0 (ch)
         if current_form.newPicture.data != None:
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
@@ -146,6 +149,7 @@ def edit(username):
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
 >>>>>>> 2123a7d (changes)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
         if len(current_form.newPicture.data) != 0:
@@ -168,9 +172,12 @@ def edit(username):
 >>>>>>> 7cea868 (ch)
 =======
 =======
+>>>>>>> 00d4ad0 (ch)
+=======
         if current_form.newPicture.data != None:
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
+<<<<<<< HEAD
 >>>>>>> 627f0af (changes1)
 >>>>>>> 5a29eb8 (ch)
 =======
@@ -183,6 +190,9 @@ def edit(username):
 >>>>>>> 45c500d (adding profile png data to user database)
 =======
 >>>>>>> aa355c3 (changes)
+=======
+>>>>>>> c8b818a (ch)
+>>>>>>> 00d4ad0 (ch)
             db.session.commit()
         
         if len(current_form.newPassword.data) != 0:
