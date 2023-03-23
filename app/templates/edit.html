@@ -7,6 +7,7 @@
 </head>
 
 <center>
+<<<<<<< HEAD
     <h1>Edit Profile</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
@@ -14,6 +15,49 @@
         <p>
             {{form.newPicture.label}}<br>
             {{form.newPicture()}} <br> <br>
+=======
+<body>
+    <h1>Delete Account</h1>
+    <p>
+                <p1>Sign Up</p1>
+    <form action="" method="POST" novalidate>
+        {{form.hidden_tag()}}
+        <p>
+            #WORK ON FORM FOR EDITING PROFILE
+            {{form.username.label}} <br> 
+            {{form.username(size = 32)}} <br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+
+            {{form.password.label }}<br>
+            {{form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            
+            {{form.confirmPassword.label }}<br>
+            {{form.confirmPassword(size=32) }}<br>
+            {% for error in form.confirmPassword.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+
+            {{form.email.label }}<br>
+            {{form.email(size=32) }}<br>
+            {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+
+            {{form.phone.label }}<br>
+            {{form.phone(size=32) }}<br>
+            {% for error in form.phone.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            {{form.submit()}}</p>
+    </p>
+</body>
+</center>
+>>>>>>> 1e179bc (edited the profile.html, working on edit.html)
 
             {{ form.newPassword.label }}<br>
             {{ form.newPassword(size=32) }}<br>
