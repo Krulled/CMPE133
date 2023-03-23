@@ -20,6 +20,7 @@ h3{
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   background-size: cover;
   margin-right: 50%;
 =======
@@ -35,6 +36,16 @@ h3{
   background-size: cover; 
   /*margin-right: 50%;}*/
 >>>>>>> 45c500d (adding profile png data to user database)
+=======
+}
+  background-size: cover;
+  margin-right: 50%;
+  background-size: cover; 
+  /*margin-right: 50%;
+  background-size: cover; 
+  /*margin-right: 50%;
+}*/
+>>>>>>> c174f5f (ch)
 p {
   width: 500px;
   height: 300px;
@@ -60,7 +71,11 @@ p2 {
   background-color: rgb(115, 186, 155);
   padding: 5px;
 <<<<<<< HEAD
+<<<<<<< HEAD
 } */
 =======
 } */
 >>>>>>> f635bf6 (ch)
+=======
+} 
+>>>>>>> c174f5f (ch)
