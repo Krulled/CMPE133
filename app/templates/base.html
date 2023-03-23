@@ -5,8 +5,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<<<<<<< HEAD
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+=======
+<head>
+  <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/base_style.css') }}">
+  <title>
+    pladdict
+  </title>
+  <div>
+    .
+    {% if current_user.is_anonymous %}
+    {% else %}
+    <a href="{{ url_for('home', username=current_user.username) }}">Calendar</a>
+    <a href="{{ url_for('forum', username=current_user.username) }}">Community Forum</a>
+    <a href="{{ url_for('search', username=current_user.username) }}">Search</a>
+    <a href="{{ url_for('profile', username=current_user.username) }}">My Profile</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+>>>>>>> d43a2a6 (changes)
 
     <link rel = "stylesheet" href="{{ url_for('static',filename='css/base_style.css')}}">
 
