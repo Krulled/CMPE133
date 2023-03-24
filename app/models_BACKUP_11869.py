@@ -4,21 +4,15 @@ from app import login
 from flask_login import UserMixin
 
 #from datetime import datetime
-<<<<<<< HEAD
 
 
-<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
 
 =======
 >>>>>>> 53cebc6 (changes)
->>>>>>> 7cea868 (ch)
-=======
->>>>>>> cb9ebcd (ch)
-=======
->>>>>>> d9c3ec1 (ch)
+>>>>>>> 444f85b (c)
 #table of followers
 followers = db.Table('followers',
             db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
@@ -67,99 +61,19 @@ class User(db.Model, UserMixin):
         self.phone = phone
 
     def set_email(self, email):
-<<<<<<< HEAD
         self.email = email
-<<<<<<< HEAD
-<<<<<<< HEAD
 <<<<<<< HEAD
     
 =======
->>>>>>> aa355c3 (changes)
-=======
-        self.email = email    
-
->>>>>>> d9c3ec1 (ch)
-    def set_profilepic(self, profilepic):
-        self.profilepic = profilepic
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    def set_profilepic(self, profilePic):
-        self.profile = profilePic
-<<<<<<< HEAD
->>>>>>> 79baa99 (adding profile png data to user database)
-=======
->>>>>>> 53cebc6 (changes)
-<<<<<<< HEAD
->>>>>>> 08d67ee (changes)
-=======
-=======
-    def set_profilepic(self, profilepic):
-        self.profilepic = profilepic
->>>>>>> 627f0af (changes1)
->>>>>>> 2123a7d (changes)
-<<<<<<< HEAD
-=======
->>>>>>> f5df3c8 (changes)
-=======
-<<<<<<< HEAD
-        
-    def set_profilepic(self, profilePic):
-        self.profile = profilePic
->>>>>>> main
-=======
         
 <<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    def set_profilepic(self, profilePic):
-        self.profile = profilePic
->>>>>>> 6d5c92e (adding profile png data to user database)
-=======
-    def set_profilepic(self, profilepic):
-        self.profilepic = profilepic
->>>>>>> d43a2a6 (changes)
-=======
-=======
->>>>>>> 5a29eb8 (ch)
+>>>>>>> 444f85b (c)
     def set_profilepic(self, profilepic):
         self.profilepic = profilepic
 =======
     def set_profilepic(self, profilePic):
         self.profile = profilePic
 >>>>>>> 53cebc6 (changes)
-<<<<<<< HEAD
->>>>>>> 7cea868 (ch)
-=======
-=======
-    def set_profilepic(self, profilepic):
-        self.profilepic = profilepic
->>>>>>> 627f0af (changes1)
->>>>>>> 5a29eb8 (ch)
-=======
-    def set_profilepic(self, profilePic):
-        self.profile = profilePic
->>>>>>> cb9ebcd (ch)
-=======
-    def set_profilepic(self, profilepic):
-        self.profilepic = profilepic
->>>>>>> 38011c4 (changes)
-=======
-    def set_profilepic(self, profilepic):
-        self.profilepic = profilepic
-=======
-    def set_profilepic(self, profilePic):
-        self.profile = profilePic
->>>>>>> 79baa99 (adding profile png data to user database)
->>>>>>> 45c500d (adding profile png data to user database)
-=======
->>>>>>> aa355c3 (changes)
-=======
->>>>>>> c8b818a (ch)
->>>>>>> 00d4ad0 (ch)
 
     def __repr__(self):
         return f'<User {self.username}>'
