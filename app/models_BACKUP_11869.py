@@ -6,7 +6,13 @@ from flask_login import UserMixin
 #from datetime import datetime
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
 
+=======
+>>>>>>> 53cebc6 (changes)
+>>>>>>> 444f85b (c)
 #table of followers
 followers = db.Table('followers',
             db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
@@ -57,14 +63,17 @@ class User(db.Model, UserMixin):
     def set_email(self, email):
         self.email = email
 <<<<<<< HEAD
+    
+=======
         
+<<<<<<< HEAD
+>>>>>>> 444f85b (c)
     def set_profilepic(self, profilepic):
         self.profilepic = profilepic
 =======
-
     def set_profilepic(self, profilePic):
         self.profile = profilePic
->>>>>>> 3ec611d2505e57218a17f9178994307da5e94d4f
+>>>>>>> 53cebc6 (changes)
 
     def __repr__(self):
         return f'<User {self.username}>'

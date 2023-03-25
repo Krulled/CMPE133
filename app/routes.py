@@ -51,8 +51,13 @@ def signup():
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
             user.set_phone(current_form.phone.data) 
+<<<<<<< HEAD
         # if len(current_form.profilepic.data) != 0:
         #     user.set_profilepic(current_form.profilepic.data) 
+=======
+        if len(current_form.profilepic.data) != 0:
+            user.set_profilepic(current_form.profilepic.data) 
+>>>>>>> 3ec611d2505e57218a17f9178994307da5e94d4f
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
@@ -106,17 +111,23 @@ def edit(username):
             flash('Incorrect password, changes not saved.')
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
+<<<<<<< HEAD
 
         if current_form.newPicture.data != None:
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
+=======
+>>>>>>> 3ec611d2505e57218a17f9178994307da5e94d4f
             db.session.commit()
         
         if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
             db.session.commit()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3ec611d2505e57218a17f9178994307da5e94d4f
         return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
