@@ -107,9 +107,58 @@ def edit(username):
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
 
+<<<<<<< HEAD
         if current_form.newPicture.data != None:
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+        if current_form.newPicture.data != None:
+            user.set_profilepic(current_form.newPicture.data)
+            flash('Picture changed!')
+=======
+        if len(current_form.newPicture.data) != 0:
+            user.set_profilePic(current_form.newPicture.data)
+            flash('Password changed!')
+>>>>>>> 79baa99 (adding profile png data to user database)
+=======
+        if len(current_form.newPicture.data) != 0:
+            user.set_profilePic(current_form.newPicture.data)
+            flash('Password changed!')
+>>>>>>> 08d67ee (changes)
+=======
+        if current_form.newPicture.data != None:
+            user.set_profilepic(current_form.newPicture.data)
+            flash('Picture changed!')
+>>>>>>> 2123a7d (changes)
+=======
+        if current_form.newPicture.data != None:
+            user.set_profilepic(current_form.newPicture.data)
+            flash('Picture changed!')
+>>>>>>> c8b818a (ch)
+=======
+        if len(current_form.newPicture.data) != 0:
+            user.set_profilePic(current_form.newPicture.data)
+            flash('Password changed!')
+>>>>>>> f8bcce7 (ch)
+=======
+        if current_form.newPicture.data != None:
+            user.set_profilepic(current_form.newPicture.data)
+            flash('Picture changed!')
+>>>>>>> c8c72b5 (ch)
+            db.session.commit()
+        
+        if len(current_form.newPassword.data) != 0:
+            user.set_password(current_form.newPassword.data)
+            flash('Password changed!')
+            db.session.commit()
+
+>>>>>>> ba9e007 (ch)
         return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
