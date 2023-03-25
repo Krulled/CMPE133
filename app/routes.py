@@ -106,15 +106,12 @@ def edit(username):
             flash('Incorrect password, changes not saved.')
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
-
-        if current_form.newPicture.data != None:
-            user.set_profilepic(current_form.newPicture.data)
-            flash('Picture changed!')
-            
-        if len(current_form.newPicture.data) != 0:
-            user.set_profilePic(current_form.newPicture.data)
+            db.session.commit()
+        
+        if len(current_form.newPassword.data) != 0:
+            user.set_password(current_form.newPassword.data)
             flash('Password changed!')
-
+            db.session.commit()
         return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
