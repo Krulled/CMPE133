@@ -1,0 +1,4 @@
+#ignore pycache directory from being committed from app 
+app/__pycache__
+#ignore any .pyc files from being committed
+*.pyc
