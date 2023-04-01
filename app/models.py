@@ -4,16 +4,7 @@ from app import login
 from flask_login import UserMixin
 
 #from datetime import datetime
-<<<<<<< HEAD
 
-
-=======
-<<<<<<< HEAD
-=======
-
-
->>>>>>> ca6e43a (ch)
->>>>>>> db0300d (ch)
 #table of followers
 followers = db.Table('followers',
             db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
