@@ -110,7 +110,8 @@ def edit(username):
         if current_form.newPicture.data != None:
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
-        
+            db.session.commit()
+
         if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
