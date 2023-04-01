@@ -5,7 +5,10 @@ from flask_login import UserMixin
 
 #from datetime import datetime
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 88cfcbf (merge 19)
 #table of followers
 followers = db.Table('followers',
             db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
