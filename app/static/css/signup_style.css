@@ -1,39 +1,47 @@
-
-  /* body {
-      background-color: rgb(255, 238, 219);
-      margin: 50px;
-    }
-  picture {
-    font-size: 300%;
+/* body {
+    background-color: rgb(255, 238, 219);
+    margin: 50px;
   }
-  p1 {
-    /*color: rgb(44, 50, 48);
-    color: rgb(44, 50, 48);
-    color: rgb(255, 255, 255);
-    font-family: helvetica;
-    font-size: 200%;
-    */
-  h3{
-    background-position: center;
-    background-image: url(https://cdn.shopify.com/s/files/1/2493/0622/articles/plants_2_1200x1200.jpg?v=1612373685);
-    background-repeat: no-repeat;
-    background-size: cover;
-    /*margin-right: 50%;*/
-  }
-    /*background-size: cover;
-    margin-right: 50%;
-    background-size: cover; 
-    /*margin-right: 50%;
-    background-size: cover; 
-    /*margin-right: 50%;
-  }*/
-  p {
-    width: 500px;
-    height: 500px;
-    text-align: center;
-    color: rgb(29, 32, 31);
-    font-family: helvetica;
-    border-color: rgb(84, 160, 117);
-    background-color: rgb(115, 186, 155);
-    padding: 5px;
+picture {
+  color: rgb(29, 32, 31);
+  font-family: trebuchet MS;
+  font-size: 300%;
 }
+p1 {
+  color: rgb(44, 50, 48);
+  color: rgb(255, 255, 255);
+  font-family: helvetica;
+  font-size: 200%;
+}
+h3{
+  background-position: center;
+  background-image: url(https://cdn.shopify.com/s/files/1/2493/0622/articles/plants_2_1200x1200.jpg?v=1612373685);
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-right: 50%;
+}
+p {
+  width: 500px;
+  height: 260px;
+  text-align: center;
+  color: rgb(29, 32, 31);
+  font-family: helvetica;
+  font-size: 100%;
+  border: 2px solid rgb(84, 160, 117);
+  border-color: rgb(84, 160, 117);
+  background-color: rgb(115, 186, 155);
+  padding: 5px;
+}
+
+p2 {
+  width: 500px;
+  height: 50px;
+  text-align: center;
+  color: rgb(29, 32, 31);
+  font-family: helvetica;
+  font-size: 100%;
+  border: 2px solid rgb(84, 160, 117);
+  border-color: rgb(84, 160, 117);
+  background-color: rgb(115, 186, 155);
+  padding: 5px;
+} */
