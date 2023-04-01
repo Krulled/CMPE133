@@ -20,7 +20,9 @@
         Email address: {{user.email}}<br>
         Phone number: {{user.phone}}<br>
         <button><a href="{{ url_for('edit', username=current_user.username) }}">Edit</a></button>
-        <br>
+    </p>
+
+    <p>
         <button><a href="{{ url_for('deleteConfirm', username=current_user.username) }}">Delete Account</a></button>
     </p>
 </center>
