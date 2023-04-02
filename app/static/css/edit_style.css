@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 /* body {
     background-color: rgb(255, 238, 219);
     margin: 50px;
 } */
+=======
+body {
+    background-color: rgb(255, 238, 219);
+    margin: 50px;
+  }
+>>>>>>> 627f0af (changes1)
 picture {
   color: rgb(29, 32, 31);
   font-family: trebuchet MS;
