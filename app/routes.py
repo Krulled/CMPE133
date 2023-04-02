@@ -110,6 +110,11 @@ def edit(username):
             user.set_profilepic(current_form.newPicture.data)
             flash('Picture changed!')
             db.session.commit()
+        
+        if len(current_form.newPassword.data) != 0:
+            user.set_password(current_form.newPassword.data)
+            flash('Password changed!')
+            db.session.commit()
 
         return redirect(url_for('login'))
 
