@@ -1,23 +1,17 @@
 {% extends "base.html" %}
 
 {% block mycontent %}
-
-<head>
-    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/edit_style.css') }}">
-</head>
-
 <center>
     <h1>Edit Profile</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
 
         <p>
-            {{form.newPicture.label}}<br>
-            {{form.newPicture()}} <br> <br>
-
             {{ form.newPassword.label }}<br>
             {{ form.newPassword(size=32) }}<br>
+        </p>
 
+        <p>
             {{ form.confirmPassword.label }}<br>
             {{ form.confirmPassword(size=32) }}<br>
             {% for error in form.confirmPassword.errors %}
