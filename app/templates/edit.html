@@ -7,11 +7,12 @@
         {{ form.hidden_tag() }}
 
         <p>
+            {{form.picture.label}}<br>
+            {{form.picture()}} <br> <br>
+
             {{ form.newPassword.label }}<br>
             {{ form.newPassword(size=32) }}<br>
-        </p>
 
-        <p>
             {{ form.confirmPassword.label }}<br>
             {{ form.confirmPassword(size=32) }}<br>
             {% for error in form.confirmPassword.errors %}
@@ -24,6 +25,17 @@
             {% for error in form.newEmail.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
+<<<<<<< HEAD
+=======
+
+            <br>
+            {{form.newPhone.label }}<br>
+            {{form.newPhone(size=32) }}<br>
+            {% for error in form.newPhone.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+>>>>>>> 747baa6 (started home_style.css and worked on edit.html)
 
             <br>
             {{form.newPhone.label }}<br>
