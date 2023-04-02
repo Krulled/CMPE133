@@ -9,14 +9,11 @@
 <center>
     <h1>{{user.username}}'s Profile</h1>
     <center>
-<<<<<<< HEAD
-=======
         <picture>
             <img src="https://www.coachcarson.com/wp-content/uploads/2018/09/Chad-Profile-pic-circle-300x300.png" alt="pladdict logo" style="width:340px;height:300px;">
         </picture>
     </center>
     <p>
->>>>>>> 1e179bc (edited the profile.html, working on edit.html)
         
         <picture>
             <img src="https://www.coachcarson.com/wp-content/uploads/2018/09/Chad-Profile-pic-circle-300x300.png" alt="pladdict logo" style="width:340px;height:300px;">
@@ -28,13 +25,7 @@
         Email address: {{user.email}}<br>
         Phone number: {{user.phone}}<br>
         <button><a href="{{ url_for('edit', username=current_user.username) }}">Edit</a></button>
-<<<<<<< HEAD
         <br>
-=======
-    </p>
-
-    <p>
->>>>>>> 8b1abfe (changes)
         <button><a href="{{ url_for('deleteConfirm', username=current_user.username) }}">Delete Account</a></button>
     </p>
 </center>
