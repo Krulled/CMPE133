@@ -51,8 +51,8 @@ def signup():
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
             user.set_phone(current_form.phone.data) 
-        if len(current_form.profilepic.data) != 0:
-            user.set_profilepic(current_form.profilepic.data) 
+        # if len(current_form.profilepic.data) != 0:
+        #     user.set_profilepic(current_form.profilepic.data) 
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
@@ -116,7 +116,6 @@ def edit(username):
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
             db.session.commit()
-
         return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
