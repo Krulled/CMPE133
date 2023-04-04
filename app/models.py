@@ -16,7 +16,7 @@ followers = db.Table('followers',
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key = True)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    post_title = db.Column(db.String(32), nullable = False) # <--- posts do not currently have titles
+    post_title = db.Column(db.String(32), nullable = False)
     time_posted = db.Column(db.String(64), nullable = False)       
     post_content = db.Column(db.String(256), nullable = False)
     # comments should be added as a db relationship (one post to many comments)

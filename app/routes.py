@@ -200,3 +200,14 @@ def forum(username):
     user = User.query.filter_by(username=username).first_or_404()
     #messages = Message.query.filter_by(user_id=user.id).all()
     return render_template('forum.html', user=user, form = current_form) #, messages=messages)
+
+#create a new post
+@plant_app.route('/user/<username>/post/new', methods = ['POST', 'GET'])
+@login_required
+def new_post(username):
+    current_form = PostForm()
+    if current_form.validate_on_submit():
+        flash('Your post has been created!', 'success') # 'success' is a category for bootstrap, is optional
+        return redirect(url_for('home', username = current_user.username))
+        post = Post()
+    return render_template('create_post.html', title='New Post', form=current_form, legend='New Post')
