@@ -4,7 +4,7 @@
 
 <head>
     <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/forum_style.css') }}">
-    <title>{{user.username}}'s Home</title>
+    <title>Forum</title>
 </head>
 
 <center>
@@ -12,29 +12,21 @@
         <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297" alt="pladdict logo" style="width:340px;height:100px;">
     </picture>
 
-<body>
-    <h2>Hello {{user.username}}</h2>
-    <br>
-    <br>
-    <form action="" method= "POST" novalidate>
-        {{form.hidden_tag()}}
-        <p>
-            {{form.message.label}} <br> {{form.message()}} <br>
-            {{form.submit_post()}}
-        </p>
-    </form>
-
-    {% for post in posts %}
-    <div class="post">
-        <p>{{ post.user.username }}</p>
-        <p>{{ post.content }}</p>
-    </div>
+{% block content %}
+    {% for post in list_of_posts %}
+        <article class="media content-section">
+          {# <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> #}
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.author_id }}</a>
+              <small class="text-muted">{{ post.time_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            {# <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.post_title }}</a></h2> #}
+            <p class="article-content">{{ post.post_content }}</p>
+          </div>
+        </article>
     {% endfor %}
-    {% for post in posts %}
-    {{ post.title }}
-    {{ post.content }}
-    {% endfor %}
-</body>
+{% endblock content %}
 
 </center>
 

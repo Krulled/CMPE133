@@ -1,7 +1,7 @@
 from app import plant_app, db
 from flask import render_template, redirect, flash, request, url_for
 from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, SearchUsersForm
-from app.models import User #, Message #, Post
+from app.models import User, Post #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -192,14 +192,15 @@ def home(username):
     #messages = Message.query.filter_by(user_id=user.id).all()
     return render_template('home.html', user=user) #, messages=messages)
 
-#view forum page
+#view forum page (aka view all posts)
 @plant_app.route('/user/<username>/forum', methods = ['POST', 'GET'])
 @login_required
 def forum(username):
-    current_form = PostForm()
-    user = User.query.filter_by(username=username).first_or_404()
-    #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('forum.html', user=user, form = current_form) #, messages=messages)
+    list_of_posts = Post.query.all()
+    # current_form = PostForm()
+    # user = User.query.filter_by(username=username).first_or_404()
+    # #messages = Message.query.filter_by(user_id=user.id).all()
+    return render_template('forum.html', list_of_posts=list_of_posts)
 
 #create a new post
 @plant_app.route('/user/<username>/post/new', methods = ['POST', 'GET'])
@@ -207,7 +208,15 @@ def forum(username):
 def new_post(username):
     current_form = PostForm()
     if current_form.validate_on_submit():
+        post = Post(post_title=current_form.title.data, post_content=current_form.message.data) # may need to add author_id here
+        db.session.add(post)
+        db.session.commit()
         flash('Your post has been created!', 'success') # 'success' is a category for bootstrap, is optional
         return redirect(url_for('home', username = current_user.username))
-        post = Post()
     return render_template('create_post.html', title='New Post', form=current_form, legend='New Post')
+
+# view a post (from the forum)
+@plant_app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', post=post)

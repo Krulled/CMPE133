@@ -15,13 +15,14 @@ followers = db.Table('followers',
 #post class
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key = True)
-    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     post_title = db.Column(db.String(32), nullable = False)
-    time_posted = db.Column(db.String(64), nullable = False)       
-    post_content = db.Column(db.String(256), nullable = False)
+    time_posted = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)       
+    post_content = db.Column(db.Text, nullable = False)
     # comments should be added as a db relationship (one post to many comments)
     # number_of_likes = db.Column(db.Integer(), nullable = False)
 
+    '''
     def set_author(self, author_id):
         self.author_id = author_id
     
@@ -33,13 +34,14 @@ class Post(db.Model):
     
     def set_post_content(self, post_content):
         self.post_content = post_content
+    '''
 
 #user class
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(32), unique=True, nullable = False) #dont want username to be null, 32 characters max
+    username = db.Column(db.String(32), unique = True, nullable = False) #dont want username to be null, 32 characters max
     password = db.Column(db.String(32), nullable = False)
-    email = db.Column(db.String(64), unique=True, nullable = False)
+    email = db.Column(db.String(64), unique = True, nullable = False)
     phone = db.Column(db.String(11))
     profilepic = db.Column(db.String(), nullable = True)
 
