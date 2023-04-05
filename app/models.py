@@ -22,6 +22,8 @@ class Post(db.Model):
     # comments should be added as a db relationship (one post to many comments)
     # number_of_likes = db.Column(db.Integer(), nullable = False)
 
+    def __repr__(self):
+        return f"Post('{self.post_title}', '{self.time_posted}')"
     '''
     def set_author(self, author_id):
         self.author_id = author_id
@@ -44,6 +46,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique = True, nullable = False)
     phone = db.Column(db.String(11))
     profilepic = db.Column(db.String(), nullable = True)
+    posts = db.relationship('Post', backref='author', lazy=True)
 
     #setting followed and user's relationship
     followed = db.relationship(

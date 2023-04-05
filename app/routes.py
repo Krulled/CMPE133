@@ -208,7 +208,7 @@ def forum(username):
 def new_post(username):
     current_form = PostForm()
     if current_form.validate_on_submit():
-        post = Post(post_title=current_form.title.data, post_content=current_form.message.data) # may need to add author_id here
+        post = Post(post_title=current_form.title.data, post_content=current_form.message.data, author=current_user) # may need to add author_id here
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success') # 'success' is a category for bootstrap, is optional
