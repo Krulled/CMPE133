@@ -16,14 +16,19 @@
     </center>
     <br>
     <p>
-        Username: {{user.username}}<br>
-        Email address: {{user.email}}<br>
-        Phone number: {{user.phone}}<br>
-        <button><a href="{{ url_for('edit', username=current_user.username) }}">Edit</a></button>
-        <br>
-        <button><a href="{{ url_for('deleteConfirm', username=current_user.username) }}">Delete Account</a></button>
+        {% if user == current_user %}
+            Username: {{user.username}}<br>
+            Email address: {{user.email}}<br>
+            Phone number: {{user.phone}}<br>
+            <button><a href="{{ url_for('edit', username=current_user.username) }}">Edit</a></button>
+            <br>
+            <button><a href="{{ url_for('deleteConfirm', username=current_user.username) }}">Delete Account</a></button>
+        {% endif %}
+
     </p>
 </center>
+
+{# unused 
 
 {% if user == current_user %}
     {% for post in posts %}
@@ -32,5 +37,7 @@
     </p>
     {% endfor %}
 {% endif %}
+
+#}
 
 {% endblock %}
