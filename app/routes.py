@@ -65,7 +65,7 @@ def signup():
 def logout():
     if current_user.is_authenticated:
         logout_user()
-        flash('You have logged out')
+        #flash('You have logged out')
         return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
