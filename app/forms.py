@@ -31,10 +31,11 @@ class SignupForm(FlaskForm):
         if email is not None:        #email matches with one in a database
             raise ValidationError("Email already taken.")
 
-#form for home page posts               <--- just beginning, not completed
+#form for home page posts               
 class PostForm(FlaskForm):
-    message = TextAreaField('Enter a message', validators = [DataRequired()])
-    post = SubmitField('Post')
+    title = StringField('Title:', validators = [DataRequired()])
+    message = TextAreaField('Message:', validators = [DataRequired()])
+    submit_post = SubmitField('Post')
 
 #form for profile editing
 class EditProfileForm(FlaskForm):
