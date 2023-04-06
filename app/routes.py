@@ -51,7 +51,7 @@ def signup():
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
             user.set_phone(current_form.phone.data) 
-        if len(current_form.profilepic.data) != 0:
+        if len(current_form.profilepic.data) != None:
             user.set_profilepic(current_form.profilepic.data) 
         db.session.add(user)
         db.session.commit()

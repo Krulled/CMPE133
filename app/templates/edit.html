@@ -3,101 +3,45 @@
 {% block mycontent %}
 
 <head>
-    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/edit_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
 </head>
 
 <center>
-<<<<<<< HEAD
-    <h1>Edit Profile</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
+    <div class="title">Edit Profile</div>
+    <div class="editBox">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
 
-        <p>
-            {{form.newPicture.label}}<br>
-            {{form.newPicture()}} <br> <br>
-=======
-<body>
-    <h1>Delete Account</h1>
-    <p>
-                <p1>Sign Up</p1>
-    <form action="" method="POST" novalidate>
-        {{form.hidden_tag()}}
-        <p>
-            #WORK ON FORM FOR EDITING PROFILE
-            {{form.username.label}} <br> 
-            {{form.username(size = 32)}} <br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+            <p>
+                {{form.newPicture.label}}<br>
+                {{form.newPicture()}} <br> <br>
 
-            {{form.password.label }}<br>
-            {{form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            
-            {{form.confirmPassword.label }}<br>
-            {{form.confirmPassword(size=32) }}<br>
-            {% for error in form.confirmPassword.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+                {{ form.newPassword.label }}<br>
+                {{ form.newPassword(size=32) }}<br>
 
-            {{form.email.label }}<br>
-            {{form.email(size=32) }}<br>
-            {% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+                {{ form.confirmPassword.label }}<br>
+                {{ form.confirmPassword(size=32) }}<br>
+                {% for error in form.confirmPassword.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
 
-            {{form.phone.label }}<br>
-            {{form.phone(size=32) }}<br>
-            {% for error in form.phone.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            {{form.submit()}}</p>
-    </p>
-</body>
-</center>
->>>>>>> 1e179bc (edited the profile.html, working on edit.html)
+                <br>
+                {{form.newEmail.label }}<br>
+                {{form.newEmail(size=32) }}<br>
+                {% for error in form.newEmail.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
 
-            {{ form.newPassword.label }}<br>
-            {{ form.newPassword(size=32) }}<br>
+                {{form.newPhone.label }}<br>
+                {{form.newPhone(size=32) }}<br>
+                {% for error in form.newPhone.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
 
-            {{ form.confirmPassword.label }}<br>
-            {{ form.confirmPassword(size=32) }}<br>
-            {% for error in form.confirmPassword.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            
-            <br>
-            {{form.newEmail.label }}<br>
-            {{form.newEmail(size=32) }}<br>
-            {% for error in form.newEmail.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-<<<<<<< HEAD
-=======
+                {{form.submit.label}} <br> {{form.submit()}}
+            </p>
 
-            <br>
-            {{form.newPhone.label }}<br>
-            {{form.newPhone(size=32) }}<br>
-            {% for error in form.newPhone.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-<<<<<<< HEAD
-        </p>
->>>>>>> 747baa6 (started home_style.css and worked on edit.html)
-
-            <br>
-            {{form.newPhone.label }}<br>
-            {{form.newPhone(size=32) }}<br>
-            {% for error in form.newPhone.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-=======
->>>>>>> 627f0af (changes1)
-        
-            {{form.submit.label}} <br> {{form.submit()}}</p>
-
-    </form>
+        </form>
+    </div>
 </center>
 {% endblock %}
