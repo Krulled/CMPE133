@@ -3,85 +3,45 @@
 {% block mycontent %}
 
 <head>
-    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/edit_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
 </head>
 
 <center>
-    <h1>Edit Profile</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
+    <div class="title">Edit Profile</div>
+    <div class="editBox">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
 
-<<<<<<< HEAD
-=======
-        <p>
-            {{form.newPicture.label}}<br>
-            {{form.newPicture()}} <br> <br>
-<body>
-    <h1>Delete Account</h1>
-    <p>
-                <p1>Sign Up</p1>
-    <form action="" method="POST" novalidate>
-        {{form.hidden_tag()}}
->>>>>>> 3ec611d2505e57218a17f9178994307da5e94d4f
-        <p>
-            {{form.newPicture.label}}<br>
-            {{form.newPicture()}} <br> <br>
+            <p>
+                {{form.newPicture.label}}<br>
+                {{form.newPicture()}} <br> <br>
 
-            {{ form.newPassword.label }}<br>
-            {{ form.newPassword(size=32) }}<br>
+                {{ form.newPassword.label }}<br>
+                {{ form.newPassword(size=32) }}<br>
 
-            {{ form.confirmPassword.label }}<br>
-            {{ form.confirmPassword(size=32) }}<br>
-            {% for error in form.confirmPassword.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            
-            <br>
-            {{form.newEmail.label }}<br>
-            {{form.newEmail(size=32) }}<br>
-            {% for error in form.newEmail.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+                {{ form.confirmPassword.label }}<br>
+                {{ form.confirmPassword(size=32) }}<br>
+                {% for error in form.confirmPassword.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
 
-            <br>
-            {{form.newPhone.label }}<br>
-            {{form.newPhone(size=32) }}<br>
-            {% for error in form.newPhone.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        
-            {{form.submit.label}} <br> {{form.submit()}}</p>
+                <br>
+                {{form.newEmail.label }}<br>
+                {{form.newEmail(size=32) }}<br>
+                {% for error in form.newEmail.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
 
-    </form>
+                {{form.newPhone.label }}<br>
+                {{form.newPhone(size=32) }}<br>
+                {% for error in form.newPhone.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+
+                {{form.submit.label}} <br> {{form.submit()}}
+            </p>
+
+        </form>
+    </div>
 </center>
-<<<<<<< HEAD
-=======
-            {{ form.newPassword.label }}<br>
-            {{ form.newPassword(size=32) }}<br>
-
-            {{ form.confirmPassword.label }}<br>
-            {{ form.confirmPassword(size=32) }}<br>
-            {% for error in form.confirmPassword.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            
-            <br>
-            {{form.newEmail.label }}<br>
-            {{form.newEmail(size=32) }}<br>
-            {% for error in form.newEmail.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-
-            <br>
-            {{form.newPhone.label }}<br>
-            {{form.newPhone(size=32) }}<br>
-            {% for error in form.newPhone.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        
-            {{form.submit.label}} <br> {{form.submit()}}</p>
-
-    </form>
-</center>
->>>>>>> 3ec611d2505e57218a17f9178994307da5e94d4f
 {% endblock %}

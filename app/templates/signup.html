@@ -2,60 +2,68 @@
 
 {% block mycontent %}
 
-<link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/signup_style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
 
 <body>
 
     <center>
         <picture>
-            <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297" alt="pladdict logo" style="width:340px;height:100px;">
+            <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297"
+                alt="pladdict logo" style="width:340px;height:100px;">
         </picture>
     </center>
 
-    <h3>
+    <div class="loginBG">
         <center>
-        <p1>Sign Up</p1>
-    <form action="" method="POST" novalidate>
-        {{form.hidden_tag()}}
-        <p>
-            {{form.username.label}} <br> 
-            {{form.username(size = 32)}} <br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+            <br>
+            <div class="signBox">
+                <div class="title">
+                    Sign Up
+                </div>
+                <form action="" method="POST" novalidate>
+                    {{form.hidden_tag()}}
+                    <p>
+                        {{form.username.label}} <br>
+                        {{form.username(size = 32)}} <br>
+                        {% for error in form.username.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
 
-            {{form.password.label }}<br>
-            {{form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            
-            {{form.confirmPassword.label }}<br>
-            {{form.confirmPassword(size=32) }}<br>
-            {% for error in form.confirmPassword.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+                        {{form.password.label }}<br>
+                        {{form.password(size=32) }}<br>
+                        {% for error in form.password.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
 
-            {{form.email.label }}<br>
-            {{form.email(size=32) }}<br>
-            {% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+                        {{form.confirmPassword.label }}<br>
+                        {{form.confirmPassword(size=32) }}<br>
+                        {% for error in form.confirmPassword.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
 
-            {{form.phone.label }}<br>
-            {{form.phone(size=32) }}<br>
-            {% for error in form.phone.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+                        {{form.email.label }}<br>
+                        {{form.email(size=32) }}<br>
+                        {% for error in form.email.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
 
-            Profile Picture<br>
-            
-            {{form.submit()}}</p>
+                        {{form.phone.label }}<br>
+                        {{form.phone(size=32) }}<br>
+                        {% for error in form.phone.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
 
-        <p2>Returning User? <a href="{{ url_for('login') }}">Login Here</a></p2>
+                        Profile Picture<br>
+                        {{form.profilepic()}}<br>
+                        {{form.submit()}}
+                    </p>
+                </form>
+            </div>
+            <br>
+            <div class="signLink"> Returning User? <a href="{{ url_for('login') }}">Login Here</a></div>
         </center>
         <br>
-    </h3>
+    </div>
 </body>
 
 {% endblock %}
