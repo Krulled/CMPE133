@@ -3,7 +3,7 @@
 {% block mycontent %}
 
 <head>
-    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/login_style.css') }}">
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/style.css') }}">
 </head>
 
     <!--pladdict-->
@@ -22,25 +22,31 @@
     {% endfor %}
     </center>
 
-<h3>
+<div class = "loginBG">
     <center>
-    <p1>
-        Login
-    </p1>
-    <form action="" method="POST" novalidate>
-        {{form.hidden_tag()}}
-        <p>
-            {{form.username.label}} <br> {{form.username()}}<br>
-            {{form.password.label}} <br> {{form.password()}} <br>
-            <!--<p>{{form.remember_me.label}} <br> {{form.remember_me()}}</p>-->
-            <!--<p>{{form.submit.label}} <br> {{form.submit()}}</p>-->
-            {{form.submit()}}
-        </p>
-    
-        <p2>New User? <a href="{{ url_for('signup') }}">Sign Up Here</a> </p2>
-    </form>
+    <br>
+    <div class = "loginBox">
+        <div class = "title">
+            Login
+        </div>
+        <form action="" method="POST" novalidate>
+            {{form.hidden_tag()}}
+            <p>
+                {{form.username.label}} <br> {{form.username()}}<br>
+                {{form.password.label}} <br> {{form.password()}} <br>
+                <!--<p>{{form.remember_me.label}} <br> {{form.remember_me()}}</p>-->
+                <!--<p>{{form.submit.label}} <br> {{form.submit()}}</p>-->
+                {{form.submit()}}
+            </p>
+        </form>
+    </div>
+    <br>
+    <div class = "signLink">
+        <p>New User? <a href="{{ url_for('signup') }}">Sign Up Here</a><p>
+    </div>
+
     </center>
     <br>
-</h3>
+</div>
 
 {% endblock %}
