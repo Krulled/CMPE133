@@ -3,7 +3,7 @@
 {% block mycontent %}
 
 <head>
-    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/forum_style.css') }}">
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/style.css') }}">
     <title>{{user.username}}'s Home</title>
 </head>
 
@@ -13,8 +13,9 @@
     </picture>
 
 <body>
-    <h1>Welcome to pladdict!</h1>
-    <h2>Hello {{user.username}}</h2>
+    <div class = "greeting">
+        Welcome to pladdict! <br>
+        Hello {{user.username}}</div>
     <br>
     <br>
     <p>
