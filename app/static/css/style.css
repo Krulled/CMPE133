@@ -1,0 +1,89 @@
+body {
+  background-color: rgb(255, 238, 219);
+}
+
+picture {
+  color: rgb(29, 32, 31);
+  font-family: trebuchet MS;
+  font-size: 300%;
+}
+
+.title {
+  color: rgb(44, 50, 48);
+  color: rgb(29, 32, 31);
+  font-family: helvetica;
+  font-size: 200%;
+}
+
+.loginBG {
+  background-position: center;
+  background-image: url(https://cdn.shopify.com/s/files/1/2493/0622/articles/plants_2_1200x1200.jpg?v=1612373685);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.loginBox {
+  width: 500px;
+  height: 230px;
+  text-align: center;
+  border: 2px solid rgb(84, 160, 117);
+  border-color: rgb(84, 160, 117);
+  background-color: rgb(115, 186, 155);
+  padding: 5px;
+}
+
+.signBox {
+  width: 500px;
+  height: 470px;
+  text-align: center;
+  border: 2px solid rgb(84, 160, 117);
+  border-color: rgb(84, 160, 117);
+  background-color: rgb(115, 186, 155);
+  padding: 5px;
+}
+
+.profileBox {
+  width: 500px;
+  height: 150px;
+  text-align: center;
+  color: rgb(29, 32, 31);
+  font-family: helvetica;
+  font-size: 100%;
+  border: 2px solid rgb(84, 160, 117);
+  border-color: rgb(84, 160, 117);
+  background-color: rgb(115, 186, 155);
+  padding: 5px;
+}
+
+.editBox{
+  width: 500px;
+  height: 450px;
+  text-align: center;
+  color: rgb(29, 32, 31);
+  font-family: helvetica;
+  font-size: 100%;
+  border: 2px solid rgb(84, 160, 117);
+  border-color: rgb(84, 160, 117);
+  background-color: rgb(115, 186, 155);
+  padding: 5px;
+}
+
+.signLink {
+  width: 500px;
+  height: 50px;
+  text-align: center;
+  color: rgb(29, 32, 31);
+  font-family: helvetica;
+  font-size: 100%;
+  border: 2px solid rgb(84, 160, 117);
+  border-color: rgb(84, 160, 117);
+  background-color: rgb(115, 186, 155);
+  padding: 5px;
+}
+
+.greeting {
+  text-align: center;
+  color: rgb(29, 32, 31);
+  font-family: helvetica;
+  font-size: 150;
+}
