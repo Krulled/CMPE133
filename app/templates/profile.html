@@ -16,7 +16,7 @@
         {% if user.profilepic %}
         <img width="200px" src="{{ url_for('static', filename='css/images/' + user.profilepic)}}" />
         {% else %}
-        <img width="200px" src="{{ url_for('static', filename='css/images/default.jpeg')}}" />
+        {# <img width="200px" src="{{ url_for('static', filename='css/images/default.jpeg')}}" /> #}
         {% endif %}
     </center>
     <br>
