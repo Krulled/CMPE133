@@ -3,11 +3,11 @@
 {% block mycontent %}
 
 <head>
-    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/edit_style.css') }}">
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/style.css') }}">
 </head>
 
 <center>
-    <h1>Search For User</h1>
+    <div class = "smallerTitle">Search</div>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>

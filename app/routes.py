@@ -143,7 +143,7 @@ def search(username):
             return redirect(url_for('search', username = current_user.username))
 
         user = User.query.filter_by(username=current_form.search.data).first()
-        return render_template(('searchResults.html'), form = current_form, username = user.username)
+        return render_template(('search_results.html'), form = current_form, username = user.username)
 
     return render_template('search.html', user=username, form= current_form)
 
@@ -152,7 +152,7 @@ def search(username):
 @login_required
 def searchProfile(username):
     user = User.query.filter_by(username=username).first()
-    return render_template('searchProfile.html', username=user)
+    return render_template('search_profile.html', username=user)
 
 #follow
 @plant_app.route('/user/searchProfile/<username>/follow', methods=['POST', 'GET'])
@@ -220,3 +220,9 @@ def new_post(username):
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', post=post)
+
+#view plant collection
+@plant_app.route('/user/<username>/collection')
+def collection(username):
+    user = User.query.filter_by(username=username).first()
+    return render_template('collection.html', user = user)
