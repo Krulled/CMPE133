@@ -37,6 +37,10 @@ class PostForm(FlaskForm):
     message = TextAreaField('Message:', validators = [DataRequired()])
     submit_post = SubmitField('Post')
 
+class CommentForm(FlaskForm):
+    comment_content = TextAreaField('Comment:', validators=[DataRequired()])
+    submit_comment = SubmitField('Post Comment')
+
 #form for profile editing
 class EditProfileForm(FlaskForm):
     newPicture = FileField('Profile Picture')
