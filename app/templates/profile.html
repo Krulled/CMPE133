@@ -13,14 +13,13 @@
     <div class = "smallerTitle">{{user.username}}'s Profile</div>
     <center>
         <picture>
-            <img src="https://www.coachcarson.com/wp-content/uploads/2018/09/Chad-Profile-pic-circle-300x300.png"
-                alt="pladdict logo" style="width:340px;height:300px;">
-        </picture>
         {% if user.profilepic %}
         <img width="200px" src="{{ url_for('static', filename='css/images/' + user.profilepic)}}" />
         {% else %}
-        <img width="200px" src="{{ url_for('static', filename='css/images/default.jpeg')}}" />
+        <img src="https://www.coachcarson.com/wp-content/uploads/2018/09/Chad-Profile-pic-circle-300x300.png"
+                alt="pladdict logo" style="width:340px;height:300px;">
         {% endif %}
+        </picture>
     </center>
     <br>
     <div class="profileBox">

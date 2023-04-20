@@ -16,6 +16,7 @@
             {{ form.hidden_tag() }}
 
             <p>
+                New Picture<br>
                 {{form.newPicture.label}}<br>
                 {{form.newPicture()}} <br> <br>
 
@@ -40,6 +41,7 @@
                 {% for error in form.newPhone.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
+                
 
                 {{form.submit.label}} <br> {{form.submit()}}
             </p>
