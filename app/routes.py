@@ -66,7 +66,7 @@ def signup():
 def logout():
     if current_user.is_authenticated:
         logout_user()
-        flash('You have logged out')
+        #flash('You have logged out')
         return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
@@ -149,11 +149,11 @@ def followers(username):
 #     return render_template('search.html', user=username, form= current_form)
 
 #search profile
-# @plant_app.route('/user/searchProfile/<username>', methods=['POST', 'GET'])
-# @login_required
-# def searchProfile(username):
-#     user = User.query.filter_by(username=username).first()
-#     return render_template('searchProfile.html', username=user)
+@plant_app.route('/user/searchProfile/<username>', methods=['POST', 'GET'])
+@login_required
+def searchProfile(username):
+    user = User.query.filter_by(username=username).first()
+    return render_template('search_profile.html', username=user)
 
 #follow
 # @plant_app.route('/user/searchProfile/<username>/follow', methods=['POST', 'GET'])
