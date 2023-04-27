@@ -1,6 +1,6 @@
 from app import plant_app, db
 from flask import render_template, redirect, flash, request, url_for
-from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm
+from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, SearchForm
 from app.models import User, Post #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
@@ -188,10 +188,10 @@ def followers(username):
 @plant_app.route('/user/<username>/home', methods = ['POST', 'GET'])
 @login_required
 def home(username):
-    #current_form = PostForm()
+    form = SearchForm()
     user = User.query.filter_by(username=username).first_or_404()
     #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('home.html', user=user) #, messages=messages)
+    return render_template('home.html', user=user, form=form) #, messages=messages)
 
 #view forum page (aka view all posts)
 @plant_app.route('/user/<username>/forum', methods = ['POST', 'GET'])
@@ -221,3 +221,14 @@ def new_post(username):
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', post=post)
+
+@plant_app.route('/search', methods = ['GET', 'POST'])
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        query = form.searched.data
+        api_url = "https://perenual.com/api/species-list?key=sk-CwED63eab143ecfef46&q=" + query
+        response = requests.get(api_url)
+        data = response.json()
+        return render_template('search.html', data=data, search = query, form=form)
+    return "No"

@@ -2,12 +2,32 @@
 
 {% block mycontent %}
 
-<form action="{{ url_for('search')}}" method="post">
-    <input type="text" id="plant" name="plant" placeholder="Plant">
-    <button type="submit">Login</button>
-</form>
-    {% for plant in data['data'] %}
-        <h3> {{ plant['common_name'] }} </h3>
-        <br />
-    {% endfor %}
+{% set name = [] %}    
+
+{% for data in data['data'] %}
+    {% if data.common_name not in name %}
+    <div class="card" style="width: 18rem;">
+        {% if data.default_image.original_url == null %}
+        <img class="card-img-top" src="{{ url_for('static', filename='css/images/no_image.png')}}" alt="Card image cap">
+        {% else %}
+            <img class="card-img-top" src="{{ data.default_image.original_url }}" alt="Card image cap">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title"> {{ data.common_name }}</h5>
+          <i class="card-title"> {{ data.scientific_name[0] }} </i>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"> Watering: <i> {{ data.watering }} </i> </li>
+          <li class="list-group-item">Dapibus ac facilisis in</li>
+          <li class="list-group-item">kdjfk</li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+        {% set _ = name.append(data.common_name) %}
+    {% endif %}
+{% endfor %}
+
 {% endblock %}
