@@ -222,7 +222,7 @@ def post(post_id):
     post = Post.query.get_or_404(post_id)
     current_form = CommentForm()
     if current_form.validate_on_submit():
-        comment = Comment(author_id=current_user, comment_content=current_form.comment_content.data)
+        comment = Comment(author=current_user, comment_content=current_form.comment_content.data)
         db.session.add(comment)
         db.session.commit()
         flash('Your comment has been posted!', 'success')
