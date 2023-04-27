@@ -49,11 +49,15 @@ class EditProfileForm(FlaskForm):
     submit = SubmitField('Confirm')
 
 #form for searching users         
-class SearchUsersForm(FlaskForm):
-    search = StringField('Search For User', validators = [DataRequired()])
-    submit = SubmitField('Search')
+# class SearchUsersForm(FlaskForm):
+#     search = StringField('Search For User', validators = [DataRequired()])
+#     submit = SubmitField('Search')
 
-    def validate_search(self, username):
-        user = User.query.filter_by(username = username.data).first()
-        if user is None:        #username does not match with one in a database
-            raise ValidationError("There is no such user.")
+#     def validate_search(self, username):
+#         user = User.query.filter_by(username = username.data).first()
+#         if user is None:        #username does not match with one in a database
+#             raise ValidationError("There is no such user.")
+
+class SearchForm(FlaskForm):
+    searched = StringField('Search For User', validators = [DataRequired()])
+    submit = SubmitField('Search')

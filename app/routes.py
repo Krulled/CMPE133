@@ -1,9 +1,10 @@
 from app import plant_app, db
 from flask import render_template, redirect, flash, request, url_for
-from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, SearchUsersForm
+from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, SearchForm
 from app.models import User, Post #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
+import requests
 
 
 @plant_app.before_first_request
@@ -131,21 +132,21 @@ def followers(username):
     return render_template('followers.html', user=user, num = num)
 
 #search user
-@plant_app.route('/user/<username>/search', methods=['POST', 'GET'])
-@login_required
-def search(username):
-    current_form = SearchUsersForm()
+# @plant_app.route('/user/<username>/search', methods=['POST', 'GET'])
+# @login_required
+# def search(username):
+#     current_form = SearchUsersForm()
 
-    #On submission, checks if data is acccepted by all field validators
-    if current_form.validate_on_submit():
-        if(current_form.search.data == current_user.username):
-            flash("You cannot search for yourself!")
-            return redirect(url_for('search', username = current_user.username))
+#     #On submission, checks if data is acccepted by all field validators
+#     if current_form.validate_on_submit():
+#         if(current_form.search.data == current_user.username):
+#             flash("You cannot search for yourself!")
+#             return redirect(url_for('search', username = current_user.username))
 
-        user = User.query.filter_by(username=current_form.search.data).first()
-        return render_template(('search_results.html'), form = current_form, username = user.username)
+#         user = User.query.filter_by(username=current_form.search.data).first()
+#         return render_template(('searchResults.html'), form = current_form, username = user.username)
 
-    return render_template('search.html', user=username, form= current_form)
+#     return render_template('search.html', user=username, form= current_form)
 
 #search profile
 @plant_app.route('/user/searchProfile/<username>', methods=['POST', 'GET'])
@@ -155,42 +156,42 @@ def searchProfile(username):
     return render_template('search_profile.html', username=user)
 
 #follow
-@plant_app.route('/user/searchProfile/<username>/follow', methods=['POST', 'GET'])
-@login_required
-def follow(username):
-    user = User.query.filter_by(username=username).first()
-    #user does not exist, here bc some people might edit links
-    if user is None:
-        flash("User does not exist")
-        return redirect(url_for('search', username = current_user.username))
-    else:
-        current_user.follow(user)
-        db.session.commit()
-        return redirect(url_for('searchProfile',username = username))
+# @plant_app.route('/user/searchProfile/<username>/follow', methods=['POST', 'GET'])
+# @login_required
+# def follow(username):
+#     user = User.query.filter_by(username=username).first()
+#     #user does not exist, here bc some people might edit links
+#     if user is None:
+#         flash("User does not exist")
+#         return redirect(url_for('search', username = current_user.username))
+#     else:
+#         current_user.follow(user)
+#         db.session.commit()
+#         return redirect(url_for('searchProfile',username = username))
 
 #unfollow 
-@plant_app.route('/user/searchProfile/<username>/unfollow', methods=['POST', 'GET'])
-@login_required
-def unfollow(username):
-    user = User.query.filter_by(username=username).first()
+# @plant_app.route('/user/searchProfile/<username>/unfollow', methods=['POST', 'GET'])
+# @login_required
+# def unfollow(username):
+#     user = User.query.filter_by(username=username).first()
 
-    #user does not exist, here bc some people might edit links
-    if user is None:
-        flash("User does not exist")
-        return redirect(url_for('search', username = current_user.username))
-    else:
-        current_user.unfollow(user)
-        db.session.commit()
-        return redirect(url_for('searchProfile',username = username))
+#     #user does not exist, here bc some people might edit links
+#     if user is None:
+#         flash("User does not exist")
+#         return redirect(url_for('search', username = current_user.username))
+#     else:
+#         current_user.unfollow(user)
+#         db.session.commit()
+#         return redirect(url_for('searchProfile',username = username))
 
 #view user home page
 @plant_app.route('/user/<username>/home', methods = ['POST', 'GET'])
 @login_required
 def home(username):
-    #current_form = PostForm()
+    form = SearchForm()
     user = User.query.filter_by(username=username).first_or_404()
     #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('home.html', user=user) #, messages=messages)
+    return render_template('home.html', user=user, form=form) #, messages=messages)
 
 #view forum page (aka view all posts)
 @plant_app.route('/user/<username>/forum', methods = ['POST', 'GET'])
@@ -221,7 +222,17 @@ def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', post=post)
 
-#view plant collection
+@plant_app.route('/search', methods = ['GET', 'POST'])
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        query = form.searched.data
+        api_url = "https://perenual.com/api/species-list?key=sk-CwED63eab143ecfef46&q=" + query
+        response = requests.get(api_url)
+        data = response.json()
+        return render_template('search.html', data=data, search = query, form=form)
+    return "No"
+
 @plant_app.route('/user/<username>/collection')
 def collection(username):
     user = User.query.filter_by(username=username).first()
