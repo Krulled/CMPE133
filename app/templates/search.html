@@ -3,7 +3,9 @@
 {% block mycontent %}
 
 {% set name = [] %}    
-    
+
+<br />
+<br />
 <div class="card-group">
     <div class="row">
       {% for data in data['data'] %}
@@ -16,17 +18,39 @@
                 <img style="width: 300px; height: 300px;" class="card-img-top" src="{{ data.default_image.original_url }}" alt="Card image cap">
               {% endif %}
               <div class="card-body">
-                <h5 class="card-title">{{ data.common_name }}</h5>
+                <h5 class="card-title">{{ data.common_name|title }}</h5>
                 <i class="card-title">{{ data.scientific_name[0] }}</i>
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">Watering: <i>{{ data.watering }}</i></li>
-                <li class="list-group-item"> kf</li>
-                <li class="list-group-item">kdjfk</li>
+                <li class="list-group-item"> 
+                    Sunlight: 
+                <i> 
+                    {% for item in data.sunlight %}
+                        {{ item }}{% if not loop.last %},
+                        {% endif %}
+                    {% endfor %}
+                </i>
+                </li>
               </ul>
-              <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+              <div class="card-body" style="display: flex; justify-content: center;">
+                <button type="submit" class="add-to-inventory-btn">Add to Collection</button>
+                    <style>
+                    .add-to-inventory-btn {
+                        background-color: green;
+                        color: white;
+                        padding: 10px 20px;
+                        border: none;
+                        border-radius: 5px;
+                        font-size: 15px;
+                        cursor: pointer;
+                    }
+
+                    .add-to-inventory-btn span {
+                        margin-left: 5px;
+                    }
+                    </style>
+                <!-- <a href="#" class="card-link">Another link</a> -->
               </div>
             </div>
             {% set _ = name.append(data.common_name) %}
