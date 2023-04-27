@@ -92,8 +92,9 @@ def delete(username):
 @plant_app.route('/user/<username>/profile/')
 @login_required
 def profile(username):
+    form = SearchForm()
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('profile.html', user=user)
+    return render_template('profile.html', user=user, form=form)
 
 #edit profile
 @plant_app.route('/user/<username>/profile/edit', methods=['POST', 'GET'])
@@ -197,11 +198,12 @@ def home(username):
 @plant_app.route('/user/<username>/forum', methods = ['POST', 'GET'])
 @login_required
 def forum(username):
+    form = SearchForm()
     list_of_posts = Post.query.all()
     # current_form = PostForm()
     # user = User.query.filter_by(username=username).first_or_404()
     # #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('forum.html', list_of_posts=list_of_posts)
+    return render_template('forum.html', list_of_posts=list_of_posts, form=form)
 
 #create a new post
 @plant_app.route('/user/<username>/post/new', methods = ['POST', 'GET'])
@@ -245,5 +247,6 @@ def search():
 
 @plant_app.route('/user/<username>/collection')
 def collection(username):
+    form = SearchForm()
     user = User.query.filter_by(username=username).first()
-    return render_template('collection.html', user = user)
+    return render_template('collection.html', user = user, form=form)
