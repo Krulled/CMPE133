@@ -1,7 +1,7 @@
 from app import plant_app, db
 from flask import render_template, redirect, flash, request, url_for
-from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, SearchForm
-from app.models import User, Post #, Message
+from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, CommentForm, SearchForm
+from app.models import User, Post, Comment #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 import requests
@@ -217,10 +217,20 @@ def new_post(username):
     return render_template('create_post.html', title='New Post', form=current_form, legend='New Post')
 
 # view a post (from the forum)
-@plant_app.route('/post/<int:post_id>')
+@plant_app.route('/post/<int:post_id>', methods = ['POST', 'GET'])
+@login_required     # now forced to make login required for viewing posts
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', post=post)
+    post_comments = Post.query.get_or_404(post_id).comments.all()     # intended to display all comments replying to the current post
+    #print(post_comments)
+    current_form = CommentForm()
+    if current_form.validate_on_submit():
+        comment = Comment(author=current_user, comment_content=current_form.comment_content.data, post_id=post_id)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been posted!', 'success')       # displays at the bottom of the comments page, should be moved
+        return redirect(url_for('post', post_id=post_id))
+    return render_template('post.html', post=post, form=current_form, post_comments=post_comments)
 
 @plant_app.route('/search', methods = ['GET', 'POST'])
 def search():

@@ -9,6 +9,30 @@
   <picture>
     <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297" alt="pladdict logo" style="width:340px;height:100px;">
 </picture>
+
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">{{ legend }}</legend>
+        <div class="form-group">
+            {{ form.comment_content.label(class="form-control-label") }}
+            {% if form.comment_content.errors %}
+                {{ form.comment_content(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.comment_content.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.comment_content(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+    </fieldset>
+    <div class="form-group">
+        {{ form.submit_comment(class="btn btn-outline-info") }}
+    </div>
+  </form>
+
   <article class="media content-section">
     {# <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> #}
     <div class="media-body">
@@ -21,4 +45,19 @@
     </div>
   </article>
 </center>
+
+  {% for comment in post_comments %}
+    <article class="media content-section">
+      {# <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> #}
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{ comment.author.username }}</a>
+          <small class="text-muted">{{ comment.time_posted.strftime('%Y-%m-%d') }}</small>
+        </div>
+        <p class="article-content">{{ comment.comment_content }}</p>
+      </div>
+    </article>
+  {% endfor %}
+
+
 {% endblock mycontent %}

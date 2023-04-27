@@ -19,6 +19,7 @@ class Post(db.Model):
     post_title = db.Column(db.String(32), nullable = False)
     time_posted = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)       
     post_content = db.Column(db.Text, nullable = False)
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
     # comments should be added as a db relationship (one post to many comments)
     # number_of_likes = db.Column(db.Integer(), nullable = False)
 
@@ -37,6 +38,13 @@ class Post(db.Model):
     def set_post_content(self, post_content):
         self.post_content = post_content
     '''
+#comment class
+class Comment(db.Model):
+    post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), nullable=False)
+    comment_id = db.Column(db.Integer, primary_key = True)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    time_posted = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)       
+    comment_content = db.Column(db.Text, nullable = False)
 
 #user class
 class User(db.Model, UserMixin):
@@ -47,6 +55,7 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(11))
     profilepic = db.Column(db.String(), nullable = True)
     posts = db.relationship('Post', backref='author', lazy=True)
+    comments = db.relationship('Comment', backref='author', lazy=True)
 
     #setting followed and user's relationship
     followed = db.relationship(
