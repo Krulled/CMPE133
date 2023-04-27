@@ -2,7 +2,7 @@ from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login
 from flask_login import UserMixin
-
+import base64
 from datetime import datetime
 
 
@@ -11,6 +11,8 @@ from datetime import datetime
 followers = db.Table('followers',
             db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
             db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
+
+
 
 #post class
 class Post(db.Model):
@@ -45,7 +47,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(32), nullable = False)
     email = db.Column(db.String(64), unique = True, nullable = False)
     phone = db.Column(db.String(11))
-    profilepic = db.Column(db.Text, unique=True, nullable=False)
+    profilepic = db.Column(db.String, nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
 
     #setting followed and user's relationship
@@ -86,7 +88,7 @@ class User(db.Model, UserMixin):
         
     def set_profilepic(self, profilepic):
         self.profilepic = profilepic
-
+        
     def __repr__(self):
         return f'<User {self.username}>'
 

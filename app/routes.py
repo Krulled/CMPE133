@@ -4,6 +4,13 @@ from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, SearchUs
 from app.models import User, Post #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
+from werkzeug.utils import secure_filename
+import os
+import appObj
+
+appObj.config['UPLOAD_FOLDER'] = 'static/files'
+appObj.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
+
 
 
 @plant_app.before_first_request
@@ -108,9 +115,16 @@ def edit(username):
             return redirect(url_for('edit', username=username))
 
         if current_form.newPicture.data != None:
-            user.set_profilepic(current_form.newPicture.data)
-            flash('Picture changed!')
-            db.session.commit()
+            file = current_form.newPicture.data
+            sec_filename = secure_filename(file.filename) #name of image file submitted
+            
+            if sec_filename != '': #check if the file uploaded was an image type
+                  file_ext = os.path.splitext(sec_filename)[1]
+                  if file_ext not in appObj.config['UPLOAD_EXTENSIONS']:
+                    flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
+                    return redirect('')#???
+                  db.session.commit()
+        
         
         if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)

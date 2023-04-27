@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FileField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, Length
+from flask_wtf.file import FileAllowed   
 from flask import flash
 from app.models import User
 
@@ -39,7 +40,7 @@ class PostForm(FlaskForm):
 
 #form for profile editing
 class EditProfileForm(FlaskForm):
-    newPicture = FileField('Profile Picture')
+    newPicture = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'png'], message="png or jpeg")])
     #newUsername = StringField('New Username')
     newPassword = PasswordField('New Password')
     confirmPassword = PasswordField('Confirm Changes Using Password', validators=[DataRequired()])

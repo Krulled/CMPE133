@@ -14,7 +14,7 @@
     <center>
         <picture>
         {% if user.profilepic %}
-        <img width="200px" src="{{ url_for('static', filename='css/images/' + user.profilepic)}}" />
+        <img width="200px" src="{{user.profilepic}}" />
         {% else %}
         <img src="https://th.bing.com/th/id/R.892b0a529819da4166d458a477068f54?rik=rn4CbHYsELO1HA&riu=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_271769.png&ehk=HcHyW6iNPfiT%2F75Eu4Ov0rCPGWpDTgygnsT2ZoMtdyE%3D&risl=&pid=ImgRaw&r=0"
                 alt="pladdict logo" style="width:340px;height:300px;">
