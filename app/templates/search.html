@@ -2,23 +2,38 @@
 
 {% block mycontent %}
 
-<head>
-    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/style.css') }}">
-</head>
+{% set name = [] %}    
+    
+<div class="card-group">
+    <div class="row">
+      {% for data in data['data'] %}
+        {% if data.common_name not in name %}
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              {% if data.default_image.original_url == null %}
+                <img style="width: 300px; height: 300px;" class="card-img-top" src="{{ url_for('static', filename='css/images/no_image.png')}}" alt="Card image cap">
+              {% else %}
+                <img style="width: 300px; height: 300px;" class="card-img-top" src="{{ data.default_image.original_url }}" alt="Card image cap">
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title">{{ data.common_name }}</h5>
+                <i class="card-title">{{ data.scientific_name[0] }}</i>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Watering: <i>{{ data.watering }}</i></li>
+                <li class="list-group-item"> kf</li>
+                <li class="list-group-item">kdjfk</li>
+              </ul>
+              <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+            {% set _ = name.append(data.common_name) %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
 
-<center>
-    <div class = "smallerTitle">Search</div>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.search.label }}<br>
-            {{ form.search(size=32) }}<br>
-            {% for error in form.search.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            <br>
-            {{form.submit()}}</p>
-
-    </form>
-</center>
 {% endblock %}
