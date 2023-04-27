@@ -220,14 +220,16 @@ def new_post(username):
 @login_required     # now forced to make login required for viewing posts
 def post(post_id):
     post = Post.query.get_or_404(post_id)
+    post_comments = Post.query.get_or_404(post_id).comments.all()     # intended to display all comments replying to the current post
+    #print(post_comments)
     current_form = CommentForm()
     if current_form.validate_on_submit():
         comment = Comment(author=current_user, comment_content=current_form.comment_content.data, post_id=post_id)
         db.session.add(comment)
         db.session.commit()
-        flash('Your comment has been posted!', 'success')
-        return redirect(url_for('home', username = current_user.username))
-    return render_template('post.html', post=post, form=current_form)
+        flash('Your comment has been posted!', 'success')       # displays at the bottom of the comments page, should be moved
+        return redirect(url_for('post', post_id=post_id))
+    return render_template('post.html', post=post, form=current_form, post_comments=post_comments)
 
 #view plant collection
 @plant_app.route('/user/<username>/collection')

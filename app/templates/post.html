@@ -45,4 +45,19 @@
     </div>
   </article>
 </center>
+
+  {% for comment in post_comments %}
+    <article class="media content-section">
+      {# <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> #}
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{ comment.author.username }}</a>
+          <small class="text-muted">{{ comment.time_posted.strftime('%Y-%m-%d') }}</small>
+        </div>
+        <p class="article-content">{{ comment.comment_content }}</p>
+      </div>
+    </article>
+  {% endfor %}
+
+
 {% endblock mycontent %}
