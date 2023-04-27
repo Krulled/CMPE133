@@ -232,3 +232,8 @@ def search():
         data = response.json()
         return render_template('search.html', data=data, search = query, form=form)
     return "No"
+
+@plant_app.route('/user/<username>/collection')
+def collection(username):
+    user = User.query.filter_by(username=username).first()
+    return render_template('collection.html', user = user)
