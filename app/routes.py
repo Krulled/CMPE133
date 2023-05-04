@@ -1,7 +1,7 @@
 from app import plant_app, db
 from flask import render_template, redirect, flash, request, url_for
 from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, CommentForm, SearchForm
-from app.models import User, Post, Comment #, Message
+from app.models import User, Post, Comment, Collection #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 import requests
@@ -228,7 +228,7 @@ def forum(username):
     # current_form = PostForm()
     # user = User.query.filter_by(username=username).first_or_404()
     # #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('forum.html', list_of_posts=list_of_posts, form=form)
+    return render_template('forum.html', list_of_posts=list_of_posts, form=form )
 
 #create a new post
 @plant_app.route('/user/<username>/post/new', methods = ['POST', 'GET'])
@@ -267,7 +267,7 @@ def search():
         api_url = "https://perenual.com/api/species-list?key=sk-CwED63eab143ecfef46&q=" + query
         response = requests.get(api_url)
         data = response.json()
-        return render_template('search.html', data=data, search = query, form=form)
+        return render_template('search.html', data=data, search = query, form=form, username=current_user.username)
     else:
         flash("You didn't search anything!")
         return redirect(url_for('home', username = current_user.username))
@@ -276,4 +276,29 @@ def search():
 def collection(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first()
-    return render_template('collection.html', user = user, form=form)
+    collections = Collection.query.all()
+    plant_id = [c.plant_id for c in collections]
+    plant_data = []
+    for plant_id in plant_id:
+        api_url = f'https://perenual.com/api/species/details/{plant_id}?key=sk-CwED63eab143ecfef46'
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            plant_data.append(response.json())   
+    return render_template('collection.html', user=user, username=current_user.username, form=form, plant_data=plant_data)
+
+@plant_app.route('/user/<username>/add-to-collection', methods = ['POST'])
+def add_to_collection(username):
+    plant_id = request.form.get('plant_id')
+    collection_item = Collection(plant_id=plant_id)
+    db.session.add(collection_item)
+    db.session.commit()
+    return redirect(url_for('search'))
+
+@plant_app.route('/user/<username>/remove-from-collection', methods=['POST'])
+def delete_from_collection(username):
+    plant_id = request.form.get('plant_id')
+    collection_item = Collection.query.filter_by(plant_id=plant_id).first()
+    db.session.delete(collection_item)
+    db.session.commit()
+    flash('Item deleted!')
+    return redirect(url_for('collection', username=current_user.username))
