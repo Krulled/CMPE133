@@ -268,7 +268,9 @@ def search():
         response = requests.get(api_url)
         data = response.json()
         return render_template('search.html', data=data, search = query, form=form)
-    return "No"
+    else:
+        flash("You didn't search anything!")
+        return redirect(url_for('home', username = current_user.username))
 
 @plant_app.route('/user/<username>/collection')
 def collection(username):

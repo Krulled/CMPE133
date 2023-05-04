@@ -4,32 +4,62 @@
 
 <head>
     <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <title>Search</title>
 </head>
 
-<center>
-    <h2>You searched for user:</h2>
-    <p>
-        <a href="{{ url_for('searchProfile', username = username) }}">{{form.search.data}}</a>
-    </p>
-</center>
+{% block body %}
+    <br />
+    <br />
+    <h2> You searched for: {{ searched }} </h2>
+    <br />
+    {% if username %}
+        {% for username in username %}
+          {% if username.username != current_user.username %}
+            <section class="vh-100" style="background-color: #9de2ff;">
+                <div class="container py-5 h-100">
+                  <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col col-md-9 col-lg-7 col-xl-5">
+                      <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-4">
+                          <div class="d-flex text-black">
+                            <div class="flex-shrink-0">
+                                {% if username.profile_picture %}
+                                <img width = "200px" src = "{{ url_for('static', filename='css/images/' + username.profile_picture)}}"/>
+                                {% else %}
+                                <img width = "200px" src = "{{ url_for('static', filename='css/images/default.jpeg')}}"/>
+                                {% endif %}                
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h5 class="mb-1"> {{ username.username }}</h5>
+                              <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
+                                style="background-color: #efefef;">
+                                  <p class="mb-0"> Followers: {{username.followers.count()}}</p>
+                              </div>
+                              <div class="d-flex pt-1">
+                                <a href="/profile/{{username.username}}" type="button" class="btn btn-outline-primary me-1 flex-grow-1">Profile</a>
+                                {% if username.id != current_user.username.id %}
+                                  {% if not current_user.is_following(username) %}
+                                    <a class="btn btn-outline-primary me-1 flex-grow-1" href="{{ url_for('follow', username=username.username) }}">Follow</a>
+                                  {% else %}
+                                    <a class="btn btn-outline-primary me-1 flex-grow-1" href="{{ url_for('unfollow', username=username.username) }}">Unfollow</a>
+                                  {% endif %}
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>              
+            <br />
+            <br />
+          {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>
+            There were no users with the username: {{ searched }}
+        </p>
+    {% endif %}
 {% endblock %}
-
-<div>
-    <h3>User Information</h3>
-    <p><strong>Name:</strong> {{user.name}}</p>
-    <p><strong>Username:</strong> {{user.username}}</p>
-    <p><strong>Email:</strong> {{user.email}}</p>
-    <p><strong>Bio:</strong> {{user.bio}}</p>
-</div>
-
-<div>
-    <h3>Send Private Message</h3>
-    <form method="POST" action="{{url_for('sendMessage')}}">
-        <div class="form-group">
-            <label>Message</label>
-            <textarea name="message" class="form-control" rows="3"></textarea>
-        </div>
-        <input type="hidden" name="recipient" value="{{user.username}}">
-        <input type="submit" class="btn btn-primary" value="Send Message">
-    </form>
-</div>
