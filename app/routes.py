@@ -6,6 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 import requests
 
+import urllib.request, json
+import os
 
 @plant_app.before_first_request
 def create_tables():
@@ -155,6 +157,29 @@ def followers(username):
 def searchProfile(username):
     user = User.query.filter_by(username=username).first()
     return render_template('search_profile.html', username=user)
+
+#search plant
+@plant_app.route('/user/searchPlant/<username>', methods=['POST', 'GET'])
+@login_required
+def searchPlant(username):
+    user = User.query.filter_by(username=username).first()
+    url = "https://perenual.com/api/species-list?page=1&key=sk-CwED63eab143ecfef46&q={}"
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    dict = json.loads(data)
+
+    plants = []
+
+    for plant in dict["results"]:
+        plant = {
+            "name": plant["name"],
+            "picture": plant["picture"]
+        }
+
+        plants.append(plant)
+
+    return render_template('search_plant.html', username=user)
+
 
 #follow
 # @plant_app.route('/user/searchProfile/<username>/follow', methods=['POST', 'GET'])
