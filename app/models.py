@@ -99,6 +99,10 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'<User {self.username}>'
 
+class Collection(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    plant_id = db.Column(db.Integer)
+
 
 @login.user_loader
 def load_user(id):

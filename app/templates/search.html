@@ -33,25 +33,27 @@
                 </i>
                 </li>
               </ul>
-              <div class="card-body" style="display: flex; justify-content: center;">
-                <button type="submit" class="add-to-inventory-btn">Add to Collection</button>
-                    <style>
-                    .add-to-inventory-btn {
-                        background-color: green;
-                        color: white;
-                        padding: 10px 20px;
-                        border: none;
-                        border-radius: 5px;
-                        font-size: 15px;
-                        cursor: pointer;
-                    }
-
-                    .add-to-inventory-btn span {
-                        margin-left: 5px;
-                    }
-                    </style>
-                <!-- <a href="#" class="card-link">Another link</a> -->
-              </div>
+              <form action="{{url_for('add_to_collection', username=username)}}" method="post">
+                  <div class="card-body" style="display: flex; justify-content: center;">
+                    <input type="hidden" name="plant_id" value="{{ data.id }}">
+                    <button type="submit" class="add-to-inventory-btn">Add to Collection</button>
+                        <style>
+                        .add-to-inventory-btn {
+                            background-color: green;
+                            color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 5px;
+                            font-size: 15px;
+                            cursor: pointer;
+                        }
+    
+                        .add-to-inventory-btn span {
+                            margin-left: 5px;
+                        }
+                        </style>
+                  </div>
+              </form>
             </div>
             {% set _ = name.append(data.common_name) %}
           </div>
