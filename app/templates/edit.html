@@ -22,13 +22,6 @@
                 {{ form.newPassword.label }}<br>
                 {{ form.newPassword(size=32) }}<br>
 
-                {{ form.confirmPassword.label }}<br>
-                {{ form.confirmPassword(size=32) }}<br>
-                {% for error in form.confirmPassword.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-
-                <br>
                 {{form.newEmail.label }}<br>
                 {{form.newEmail(size=32) }}<br>
                 {% for error in form.newEmail.errors %}
@@ -38,6 +31,12 @@
                 {{form.newPhone.label }}<br>
                 {{form.newPhone(size=32) }}<br>
                 {% for error in form.newPhone.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+
+                {{ form.confirmPassword.label }}<br>
+                {{ form.confirmPassword(size=32) }}<br>
+                {% for error in form.confirmPassword.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
 
