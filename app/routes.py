@@ -5,11 +5,12 @@ from app.models import User, Post #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.utils import secure_filename
-import os
-import appObj
 
-appObj.config['UPLOAD_FOLDER'] = 'static/files'
-appObj.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
+import os
+
+
+plant_app.config['UPLOAD_FOLDER'] = 'static/files'
+plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
 
 
 
@@ -56,10 +57,17 @@ def signup():
         user = User(username=current_form.username.data)
         user.set_password(current_form.password.data)
         user.set_email(current_form.email.data)
+        if current_form.profilepic.data != None:
+            file = current_form.newPicture.data
+            sec_filename = secure_filename(file.filename) #name of image file submitted        
+            if sec_filename != '': #check if the file uploaded was an image type
+                  file_ext = os.path.splitext(sec_filename)[1]
+                  if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                    flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
+                    return redirect('profile')
+                  db.session.commit()
         if len(current_form.phone.data) != 0:
-            user.set_phone(current_form.phone.data) 
-        # if len(current_form.profilepic.data) != 0:
-        #     user.set_profilepic(current_form.profilepic.data) 
+            user.set_phone(current_form.phone.data)
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
@@ -116,13 +124,12 @@ def edit(username):
 
         if current_form.newPicture.data != None:
             file = current_form.newPicture.data
-            sec_filename = secure_filename(file.filename) #name of image file submitted
-            
+            sec_filename = secure_filename(file.filename) #name of image file submitted        
             if sec_filename != '': #check if the file uploaded was an image type
                   file_ext = os.path.splitext(sec_filename)[1]
-                  if file_ext not in appObj.config['UPLOAD_EXTENSIONS']:
+                  if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
                     flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
-                    return redirect('')#???
+                    return redirect('profile')
                   db.session.commit()
         
         
@@ -184,7 +191,7 @@ def follow(username):
 
 #unfollow 
 @plant_app.route('/user/searchProfile/<username>/unfollow', methods=['POST', 'GET'])
-@login_required
+@login_required 
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
 
@@ -203,8 +210,10 @@ def unfollow(username):
 def home(username):
     #current_form = PostForm()
     user = User.query.filter_by(username=username).first_or_404()
+    if(user.profilepic) != 0:
+            image_rel_path = '../static/files/' + user.profilepic #concatenate for relative path
     #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('home.html', user=user) #, messages=messages)
+    return render_template('home.html', user=user, image_rel_path = image_rel_path) #, messages=messages)
 
 #view forum page (aka view all posts)
 @plant_app.route('/user/<username>/forum', methods = ['POST', 'GET'])
