@@ -4,10 +4,18 @@ from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, CommentF
 from app.models import User, Post, Comment, Collection #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
+from werkzeug.utils import secure_filename
 import requests
 
 import urllib.request, json
 import os
+
+plant_app.config['SECRET_KEY'] = 'you-will-never-guess'
+plant_app.config['UPLOAD_FOLDER'] = 'static/files'
+plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
+# appObj.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# appObj.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
 
 @plant_app.before_first_request
 def create_tables():
@@ -54,8 +62,18 @@ def signup():
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
             user.set_phone(current_form.phone.data) 
-        # if len(current_form.profilepic.data) != 0:
-        #     user.set_profilepic(current_form.profilepic.data) 
+        if current_form.profilepic.data != None:
+            file = current_form.profilepic.data
+            sec_filename = secure_filename(file.filename) #name of image file submitted        
+            if sec_filename != '': #check if the file uploaded was an image type
+                  file_ext = os.path.splitext(sec_filename)[1]
+                  if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                    flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
+                    return redirect('signup')
+                  user.profilepic = sec_filename
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+            appObj.config['UPLOAD_FOLDER'],
+            sec_filename)) #save the file
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
@@ -111,23 +129,32 @@ def edit(username):
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
 
-        if current_form.newPicture.data != None:
-            user.set_profilepic(current_form.newPicture.data)
-            flash('Picture changed!')
-            db.session.commit()
-        
-        if len(current_form.newPassword.data) != 0:
+        if current_form.profilepic.data != None:
+            file = current_form.newPicture.data
+            sec_filename = secure_filename(file.filename) #name of image file submitted        
+            if sec_filename != '': #check if the file uploaded was an image type
+                    file_ext = os.path.splitext(sec_filename)[1]
+                    if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                        flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
+                        return redirect('profile')
+                    flash('Picture changed!')
+                    db.session.commit()
+                    user.profilepic = sec_filename
+                    file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), appObj.config['UPLOAD_FOLDER'], sec_filename)) #save the file
+                    return redirect(url_for('edit'))
+    
+    if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
             db.session.commit()
-        return redirect(url_for('login'))
+            return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
 
 #view followers
 @plant_app.route('/user/<username>/followers')
 @login_required
-def followers(username):
+def followers(username):    
     user = User.query.filter_by(username=username).first()
     num = 0
     for followers in user.followers:
@@ -216,8 +243,11 @@ def searchPlant(username):
 def home(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first_or_404()
+    if(user.profilepic) != 0:
+            image_rel_path = '../static/files/' + user.profilepic #concatenate for relative path
     #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('home.html', user=user, form=form) #, messages=messages)
+            return render_template('home.html', user=user, image_rel_path = image_rel_path) #, messages=messages)
+
 
 #view forum page (aka view all posts)
 @plant_app.route('/user/<username>/forum', methods = ['POST', 'GET'])
