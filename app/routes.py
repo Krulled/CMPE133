@@ -224,7 +224,7 @@ def home(username):
 @login_required
 def forum(username):
     form = SearchForm()
-    list_of_posts = Post.query.all()
+    list_of_posts = Post.query.order_by(Post.time_posted.desc()).all() #Post.query.all()
     # current_form = PostForm()
     # user = User.query.filter_by(username=username).first_or_404()
     # #messages = Message.query.filter_by(user_id=user.id).all()
@@ -240,7 +240,7 @@ def new_post(username):
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success') # 'success' is a category for bootstrap, is optional
-        return redirect(url_for('home', username = current_user.username))
+        return redirect(url_for('forum', username = current_user.username))
     return render_template('create_post.html', title='New Post', form=current_form, legend='New Post')
 
 # view a post (from the forum)
