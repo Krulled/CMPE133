@@ -34,13 +34,16 @@
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
 
+                <br>
+
                 Confirm Changes with Current Password<br>
                 {{ form.confirmPassword(size=32) }}<br>
                 {% for error in form.confirmPassword.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
 
-                {{form.submit.label}} <br> {{form.submit()}}
+                <br>
+                {{form.submit()}}
             </p>
 
         </form>
