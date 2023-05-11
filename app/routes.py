@@ -224,7 +224,7 @@ def home(username):
 @login_required
 def forum(username):
     form = SearchForm()
-    list_of_posts = Post.query.all()
+    list_of_posts = Post.query.order_by(Post.time_posted.desc()).all() #Post.query.all()
     # current_form = PostForm()
     # user = User.query.filter_by(username=username).first_or_404()
     # #messages = Message.query.filter_by(user_id=user.id).all()
