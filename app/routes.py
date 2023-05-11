@@ -15,7 +15,7 @@ from werkzeug.utils import secure_filename      # for getting absolute path of i
 
 ''' CONFIG FOR UPLOADING IMAGES TO POSTS '''
 plant_app.config['SECRET_KEY'] = 'you-will-never-guess'
-plant_app.config['POST_UPLOAD_FOLDER'] = 'static/files/post_images'
+plant_app.config['POST_UPLOAD_FOLDER'] = 'static/post_images'
 plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
 
 @plant_app.before_first_request
@@ -289,6 +289,7 @@ def new_post(username):
                 flash('Uploaded image type is not supported (allowed types: jpg, png, jpeg)')
                 redirect('new_post')
         # fell through--save file locally and commit filename to DB
+        print(sec_filename)
         ''' 
         saves image locally by using the absolute path created from
         joining the project directory's path, the upload folder path,
