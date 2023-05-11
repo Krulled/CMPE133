@@ -26,7 +26,7 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.post_title}', '{self.time_posted}')"
-    '''
+    ''' not used
     def set_author(self, author_id):
         self.author_id = author_id
     

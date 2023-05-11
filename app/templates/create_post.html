@@ -16,7 +16,8 @@
 
 
 <div class="content-section">
-    <form method="POST", action="", enctype="multipart/form-data">
+    {# enctype="multipart/form-data" IS MANDATORY FOR FILE UPLOADS #}
+    <form method="POST", action="", enctype="multipart/form-data"> 
         {{ form.csrf_token }}
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
