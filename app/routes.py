@@ -10,12 +10,7 @@ import requests
 import urllib.request, json
 import os
 
-plant_app.config['SECRET_KEY'] = 'you-will-never-guess'
-plant_app.config['UPLOAD_FOLDER'] = 'static/files'
-plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
-# appObj.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# appObj.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-
+# import phonenumbers # library to validate phone number, unused for ease of testing
 
 @plant_app.before_first_request
 def create_tables():
@@ -146,7 +141,21 @@ def edit(username):
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
             db.session.commit()
-            return redirect(url_for('login'))
+
+        if len(current_form.newEmail.data) != 0:
+            user.set_email(current_form.newEmail.data)
+            flash('Email changed!')
+            db.session.commit()
+
+        if len(current_form.newPhone.data) != 0:
+            # phoneNumber = phonenumbers.parse(current_form.newPhone.data)
+            # if phonenumbers.is_possible_number(phoneNumber):
+            user.set_phone(current_form.newPhone.data)
+            flash('Phone number changed!')
+            db.session.commit()
+            # else:
+            #     flash('Phone number is not valid, change not saved.')
+        return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
 
@@ -253,7 +262,7 @@ def home(username):
 @login_required
 def forum(username):
     form = SearchForm()
-    list_of_posts = Post.query.all()
+    list_of_posts = Post.query.order_by(Post.time_posted.desc()).all() #Post.query.all()
     # current_form = PostForm()
     # user = User.query.filter_by(username=username).first_or_404()
     # #messages = Message.query.filter_by(user_id=user.id).all()
@@ -269,7 +278,7 @@ def new_post(username):
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success') # 'success' is a category for bootstrap, is optional
-        return redirect(url_for('home', username = current_user.username))
+        return redirect(url_for('forum', username = current_user.username))
     return render_template('create_post.html', title='New Post', form=current_form, legend='New Post')
 
 # view a post (from the forum)
@@ -292,20 +301,21 @@ def post(post_id):
 def search():
     form = SearchForm()
     if form.validate_on_submit():
-        query = form.searched.data
-        api_url = "https://perenual.com/api/species-list?key=sk-CwED63eab143ecfef46&q=" + query
-        response = requests.get(api_url)
-        data = response.json()
-        return render_template('search.html', data=data, search = query, form=form, username=current_user.username)
+        if request.method == 'POST':
+            query = form.searched.data
+            api_url = "https://perenual.com/api/species-list?key=sk-CwED63eab143ecfef46&q=" + query
+            response = requests.get(api_url)
+            data = response.json()
+            return render_template('search.html', data=data, search = query, form=form, username=current_user.username)
     else:
         flash("You didn't search anything!")
-        return redirect(url_for('home', username = current_user.username))
+    return redirect(url_for('home', username = current_user.username))
 
 @plant_app.route('/user/<username>/collection')
 def collection(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first()
-    collections = Collection.query.all()
+    collections = Collection.query.filter_by(user_id=user.id)
     plant_id = [c.plant_id for c in collections]
     plant_data = []
     for plant_id in plant_id:
@@ -318,10 +328,12 @@ def collection(username):
 @plant_app.route('/user/<username>/add-to-collection', methods = ['POST'])
 def add_to_collection(username):
     plant_id = request.form.get('plant_id')
-    collection_item = Collection(plant_id=plant_id)
+    user = User.query.filter_by(username=username).first()
+    collection_item = Collection(plant_id=plant_id, user_id=user.id)
     db.session.add(collection_item)
     db.session.commit()
-    return redirect(url_for('search'))
+    flash('Successfully added to collection. ')
+    return redirect(url_for('collection', username=current_user.username))
 
 @plant_app.route('/user/<username>/remove-from-collection', methods=['POST'])
 def delete_from_collection(username):

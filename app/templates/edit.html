@@ -34,7 +34,7 @@
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
 
-                {{ form.confirmPassword.label }}<br>
+                Confirm Changes with Current Password<br>
                 {{ form.confirmPassword(size=32) }}<br>
                 {% for error in form.confirmPassword.errors %}
                 <span style="color: red;">[{{ error }}]</span>

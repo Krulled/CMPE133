@@ -56,6 +56,14 @@ class User(db.Model, UserMixin):
     profilepic = db.Column(db.String(256))
     posts = db.relationship('Post', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='author', lazy=True)
+    collections = db.relationship('Collection', backref='user', lazy=True)
+
+    def has_plant(self, plant_id):
+        for collection in self.collections:
+            if collection.plant_id == plant_id:
+                return True
+        return False
+
 
     #setting followed and user's relationship
     followed = db.relationship(
@@ -102,7 +110,7 @@ class User(db.Model, UserMixin):
 class Collection(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     plant_id = db.Column(db.Integer)
-
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 @login.user_loader
 def load_user(id):
