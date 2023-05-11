@@ -266,17 +266,18 @@ def new_post(username):
             if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
                 flash('Uploaded image type is not supported (allowed types: jpg, png, jpeg)')
                 redirect('new_post')
-        # fell through--save file locally and commit filename to DB
-        print(sec_filename)
-        ''' 
-        saves image locally by using the absolute path created from
-        joining the project directory's path, the upload folder path,
-        and the name of the file as a secure filename
-        '''
-        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
-            plant_app.config['POST_UPLOAD_FOLDER'],
-            sec_filename))
-        
+            # fell through--save file locally and commit filename to DB
+            print(sec_filename)
+            ''' 
+            saves image locally by using the absolute path created from
+            joining the project directory's path, the upload folder path,
+            and the name of the file as a secure filename
+            '''
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                plant_app.config['POST_UPLOAD_FOLDER'],
+                sec_filename))
+        else:   # no image chosen
+            sec_filename = None
         '''----------------'''
         post = Post(post_title=current_form.title.data, post_content=current_form.message.data, 
                     author=current_user, image=sec_filename) 
@@ -293,8 +294,10 @@ def post(post_id):
     post = Post.query.get_or_404(post_id)
     post_comments = Post.query.get_or_404(post_id).comments.all()     # intended to display all comments replying to the current post
     '''-IMAGE HANDLING-'''
-    image_rel_path = '/static/post_images/' + post.image  
-    print(image_rel_path)
+    if post.image != None:
+        image_rel_path = '/static/post_images/' + post.image  
+        print(image_rel_path)
+    else: image_rel_path = None
     '''----------------'''
     current_form = CommentForm()
     if current_form.validate_on_submit():
