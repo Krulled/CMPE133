@@ -17,6 +17,8 @@ from werkzeug.utils import secure_filename      # for getting absolute path of i
 plant_app.config['SECRET_KEY'] = 'you-will-never-guess'
 plant_app.config['POST_UPLOAD_FOLDER'] = 'static/post_images'
 plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
+''' CONFIG FOR UPLOADING PROFILE PICTURES '''
+plant_app.config['PROFILE_UPLOAD_FOLDER'] = 'static/profile_images' 
 
 @plant_app.before_first_request
 def create_tables():
