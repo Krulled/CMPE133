@@ -8,9 +8,15 @@ from werkzeug.utils import secure_filename
 import requests
 
 import urllib.request, json
-import os
+import os                                       # for saving images 
+from werkzeug.utils import secure_filename      # for getting absolute path of image
 
 # import phonenumbers # library to validate phone number, unused for ease of testing
+
+''' CONFIG FOR UPLOADING IMAGES TO POSTS '''
+plant_app.config['SECRET_KEY'] = 'you-will-never-guess'
+plant_app.config['POST_UPLOAD_FOLDER'] = 'static/files/post_images'
+plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
 
 @plant_app.before_first_request
 def create_tables():
@@ -274,7 +280,27 @@ def forum(username):
 def new_post(username):
     current_form = PostForm()
     if current_form.validate_on_submit():
-        post = Post(post_title=current_form.title.data, post_content=current_form.message.data, author=current_user) # may need to add author_id here
+        '''-IMAGE HANDLING-'''
+        file = current_form.file.data   # from PostForm
+        sec_filename = secure_filename(file.filename)
+        if sec_filename != '':
+            file_ext = os.path.splitext(sec_filename)[1] # file type (ex. .png, .jpg, .gif)
+            if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                flash('Uploaded image type is not supported (allowed types: jpg, png, jpeg)')
+                redirect('new_post')
+        # fell through--save file locally and commit filename to DB
+        ''' 
+        saves image locally by using the absolute path created from
+        joining the project directory's path, the upload folder path,
+        and the name of the file as a secure filename
+        '''
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+            plant_app.config['POST_UPLOAD_FOLDER'],
+            sec_filename))
+        
+        '''----------------'''
+        post = Post(post_title=current_form.title.data, post_content=current_form.message.data, 
+                    author=current_user, image=sec_filename) 
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success') # 'success' is a category for bootstrap, is optional

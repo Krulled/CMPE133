@@ -46,6 +46,10 @@
                     {{ form.message(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+            <div>
+                {{form.file.label}}
+                {{form.file()}}
+            </div>
         </fieldset>
         <div class="form-group">
             {{ form.submit_post(class="btn btn-outline-info") }}
