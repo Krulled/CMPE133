@@ -62,15 +62,14 @@ def signup():
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
             user.set_phone(current_form.phone.data) 
-        if current_form.profilepic.data != None:
-            file = current_form.profilepic.data
-            sec_filename = secure_filename(file.filename) #name of image file submitted        
-            if sec_filename != '': #check if the file uploaded was an image type
-                  file_ext = os.path.splitext(sec_filename)[1]
-                  if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
-                    flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
-                    return redirect('signup')
-                  user.profilepic = sec_filename
+        file = current_form.profilepic.data
+        sec_filename = secure_filename(file.filename) #name of image file submitted        
+        if sec_filename != '': #check if the file uploaded was an image type
+            file_ext = os.path.splitext(sec_filename)[1]
+            if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
+                return redirect('signup')
+            user.profilepic = sec_filename
             file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
             appObj.config['UPLOAD_FOLDER'],
             sec_filename)) #save the file

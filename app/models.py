@@ -53,7 +53,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(32), nullable = False)
     email = db.Column(db.String(64), unique = True, nullable = False)
     phone = db.Column(db.String(11))
-    profilepic = db.Column(db.String(), nullable = True)
+    profilepic = db.Column(db.String(256))
     posts = db.relationship('Post', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='author', lazy=True)
 
