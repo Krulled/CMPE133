@@ -9,6 +9,8 @@ import requests
 import urllib.request, json
 import os
 
+# import phonenumbers # library to validate phone number, unused for ease of testing
+
 @plant_app.before_first_request
 def create_tables():
     db.create_all()
@@ -120,6 +122,20 @@ def edit(username):
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
             db.session.commit()
+
+        if len(current_form.newEmail.data) != 0:
+            user.set_email(current_form.newEmail.data)
+            flash('Email changed!')
+            db.session.commit()
+
+        if len(current_form.newPhone.data) != 0:
+            # phoneNumber = phonenumbers.parse(current_form.newPhone.data)
+            # if phonenumbers.is_possible_number(phoneNumber):
+            user.set_phone(current_form.newPhone.data)
+            flash('Phone number changed!')
+            db.session.commit()
+            # else:
+            #     flash('Phone number is not valid, change not saved.')
         return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
