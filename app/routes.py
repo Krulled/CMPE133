@@ -240,7 +240,7 @@ def new_post(username):
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success') # 'success' is a category for bootstrap, is optional
-        return redirect(url_for('home', username = current_user.username))
+        return redirect(url_for('forum', username = current_user.username))
     return render_template('create_post.html', title='New Post', form=current_form, legend='New Post')
 
 # view a post (from the forum)
