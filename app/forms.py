@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FileField
-from wtforms.validators import DataRequired, EqualTo, ValidationError, Length
+from wtforms.validators import DataRequired, EqualTo, ValidationError, Length, InputRequired
 from flask import flash
 from app.models import User
 
@@ -19,7 +19,8 @@ class SignupForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(message="Email required.")])
     phone = StringField('Phone Number (Optional)', validators=None)
     submit = SubmitField('Register')
-    profilepic = FileField("Choose File")
+    profilepic = FileField('Profile pic',render_kw={"placeholder": "Upload an image of your item here."}, validators = [InputRequired()])
+
 
     def validate_username(self, username):
         user = User.query.filter_by(username = username.data).first()
@@ -43,7 +44,7 @@ class CommentForm(FlaskForm):
 
 #form for profile editing
 class EditProfileForm(FlaskForm):
-    newPicture = FileField('Profile Picture')
+    newPicture = FileField('Profile Pic',render_kw={"placeholder": "Upload an image of your item here."}, validators = [InputRequired()])
     #newUsername = StringField('New Username')
     newPassword = PasswordField('New Password')
     confirmPassword = PasswordField('Confirm Changes Using Password', validators=[DataRequired()])
