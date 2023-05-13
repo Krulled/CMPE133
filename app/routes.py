@@ -7,9 +7,17 @@ from flask_login import current_user, login_required, login_user, logout_user
 import requests
 
 import urllib.request, json
-import os
+import os                                       # for saving images 
+from werkzeug.utils import secure_filename      # for getting absolute path of image
 
 # import phonenumbers # library to validate phone number, unused for ease of testing
+
+''' CONFIG FOR UPLOADING IMAGES TO POSTS '''
+plant_app.config['SECRET_KEY'] = 'you-will-never-guess'
+plant_app.config['POST_UPLOAD_FOLDER'] = 'static/post_images'
+plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
+''' CONFIG FOR UPLOADING PROFILE PICTURES '''
+plant_app.config['PROFILE_UPLOAD_FOLDER'] = 'static/profile_images' 
 
 @plant_app.before_first_request
 def create_tables():
@@ -252,7 +260,29 @@ def forum(username):
 def new_post(username):
     current_form = PostForm()
     if current_form.validate_on_submit():
-        post = Post(post_title=current_form.title.data, post_content=current_form.message.data, author=current_user) # may need to add author_id here
+        '''-IMAGE HANDLING-'''
+        file = current_form.file.data   # from PostForm
+        sec_filename = secure_filename(file.filename)
+        if sec_filename != '':
+            file_ext = os.path.splitext(sec_filename)[1] # file type (ex. .png, .jpg, .gif)
+            if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                flash('Uploaded image type is not supported (allowed types: jpg, png, jpeg)')
+                redirect('new_post')
+            # fell through--save file locally and commit filename to DB
+            print(sec_filename)
+            ''' 
+            saves image locally by using the absolute path created from
+            joining the project directory's path, the upload folder path,
+            and the name of the file as a secure filename
+            '''
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                plant_app.config['POST_UPLOAD_FOLDER'],
+                sec_filename))
+        else:   # no image chosen
+            sec_filename = None
+        '''----------------'''
+        post = Post(post_title=current_form.title.data, post_content=current_form.message.data, 
+                    author=current_user, image=sec_filename) 
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success') # 'success' is a category for bootstrap, is optional
@@ -265,7 +295,12 @@ def new_post(username):
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     post_comments = Post.query.get_or_404(post_id).comments.all()     # intended to display all comments replying to the current post
-    #print(post_comments)
+    '''-IMAGE HANDLING-'''
+    if post.image != None:
+        image_rel_path = '/static/post_images/' + post.image  
+        print(image_rel_path)
+    else: image_rel_path = None
+    '''----------------'''
     current_form = CommentForm()
     if current_form.validate_on_submit():
         comment = Comment(author=current_user, comment_content=current_form.comment_content.data, post_id=post_id)
@@ -273,7 +308,8 @@ def post(post_id):
         db.session.commit()
         flash('Your comment has been posted!', 'success')       # displays at the bottom of the comments page, should be moved
         return redirect(url_for('post', post_id=post_id))
-    return render_template('post.html', post=post, form=current_form, post_comments=post_comments)
+    return render_template('post.html', post=post, form=current_form,
+                            post_comments=post_comments, image=image_rel_path)
 
 @plant_app.route('/search', methods = ['GET', 'POST'])
 def search():

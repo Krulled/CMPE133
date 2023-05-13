@@ -35,6 +35,7 @@ class SignupForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('Title:', validators = [DataRequired()])
     message = TextAreaField('Message:', validators = [DataRequired()])
+    file = FileField('Upload Image')
     submit_post = SubmitField('Post')
 
 class CommentForm(FlaskForm):
