@@ -1,5 +1,5 @@
 from app import plant_app, db
-from flask import render_template, redirect, flash, request, url_for
+from flask import render_template, redirect, flash, request, url_for, session
 from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, CommentForm, SearchForm
 from app.models import User, Post, Comment, Collection #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,12 +12,21 @@ from werkzeug.utils import secure_filename      # for getting absolute path of i
 
 # import phonenumbers # library to validate phone number, unused for ease of testing
 
+#timeout stuff
+from datetime import timedelta
+
 ''' CONFIG FOR UPLOADING IMAGES TO POSTS '''
 plant_app.config['SECRET_KEY'] = 'you-will-never-guess'
 plant_app.config['POST_UPLOAD_FOLDER'] = 'static/post_images'
 plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
 ''' CONFIG FOR UPLOADING PROFILE PICTURES '''
 plant_app.config['PROFILE_UPLOAD_FOLDER'] = 'static/profile_images' 
+
+# added this method for session timeout
+@plant_app.before_request
+def before_request():
+    session.permanent = True
+    plant_app.permanent_session_lifetime = timedelta(minutes=1)
 
 @plant_app.before_first_request
 def create_tables():
@@ -312,6 +321,7 @@ def post(post_id):
                             post_comments=post_comments, image=image_rel_path)
 
 @plant_app.route('/search', methods = ['GET', 'POST'])
+@login_required
 def search():
     form = SearchForm()
     if form.validate_on_submit():
@@ -326,6 +336,7 @@ def search():
     return redirect(url_for('home', username = current_user.username))
 
 @plant_app.route('/user/<username>/collection')
+@login_required
 def collection(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first()
@@ -340,6 +351,7 @@ def collection(username):
     return render_template('collection.html', user=user, username=current_user.username, form=form, plant_data=plant_data)
 
 @plant_app.route('/user/<username>/add-to-collection', methods = ['POST'])
+@login_required
 def add_to_collection(username):
     plant_id = request.form.get('plant_id')
     user = User.query.filter_by(username=username).first()
@@ -350,6 +362,7 @@ def add_to_collection(username):
     return redirect(url_for('collection', username=current_user.username))
 
 @plant_app.route('/user/<username>/remove-from-collection', methods=['POST'])
+@login_required
 def delete_from_collection(username):
     plant_id = request.form.get('plant_id')
     collection_item = Collection.query.filter_by(plant_id=plant_id).first()
