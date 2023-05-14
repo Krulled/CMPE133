@@ -66,7 +66,7 @@ def signup():
                 return redirect('signup')
             user.profilepic = sec_filename
             file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
-            appObj.config['UPLOAD_FOLDER'],
+            plant_app.config['UPLOAD_FOLDER'],
             sec_filename)) #save the file
         db.session.add(user)
         db.session.commit()
@@ -134,10 +134,10 @@ def edit(username):
                     flash('Picture changed!')
                     db.session.commit()
                     user.profilepic = sec_filename
-                    file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), appObj.config['UPLOAD_FOLDER'], sec_filename)) #save the file
+                    file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), plant_app.config['UPLOAD_FOLDER'], sec_filename)) #save the file
                     return redirect(url_for('edit'))
     
-    if len(current_form.newPassword.data) != 0:
+        if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
             db.session.commit()
