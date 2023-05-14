@@ -78,6 +78,17 @@ def signup():
             user.set_phone(current_form.phone.data) 
         # if len(current_form.profilepic.data) != 0:
         #     user.set_profilepic(current_form.profilepic.data) 
+        #file = current_form.profilepic.data
+        #sec_filename = secure_filename(file.filename) #name of image file submitted        
+        #if sec_filename != '': #check if the file uploaded was an image type
+        #    file_ext = os.path.splitext(sec_filename)[1]
+        #    if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+        #       flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
+        #        return redirect('signup')
+        #    user.profilepic = sec_filename
+        #    file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+        #    plant_app.config['UPLOAD_FOLDER'],
+        #    sec_filename)) #save the file
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
@@ -132,12 +143,21 @@ def edit(username):
             flash('Incorrect password, changes not saved.')
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
+          
+        if current_form.profilepic.data != None:
+            file = current_form.newPicture.data
+            sec_filename = secure_filename(file.filename) #name of image file submitted        
+            if sec_filename != '': #check if the file uploaded was an image type
+                    file_ext = os.path.splitext(sec_filename)[1]
+                    if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                        flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
+                        return redirect('profile')
+                    flash('Picture changed!')
+                    db.session.commit()
+                    user.profilepic = sec_filename
+                    file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), plant_app.config['UPLOAD_FOLDER'], sec_filename)) #save the file
+                    return redirect(url_for('edit'))
 
-        if current_form.newPicture.data != None:
-            user.set_profilepic(current_form.newPicture.data)
-            flash('Picture changed!')
-            db.session.commit()
-        
         if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
