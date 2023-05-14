@@ -144,7 +144,7 @@ def edit(username):
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
           
-        if current_form.profilepic.data != None:
+        if current_form.newPicture.data != None:
             file = current_form.newPicture.data
             sec_filename = secure_filename(file.filename) #name of image file submitted        
             if sec_filename != '': #check if the file uploaded was an image type
@@ -179,16 +179,6 @@ def edit(username):
         return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
-
-#view followers
-@plant_app.route('/user/<username>/followers')
-@login_required
-def followers(username):
-    user = User.query.filter_by(username=username).first()
-    num = 0
-    for followers in user.followers:
-        num += 1
-    return render_template('followers.html', user=user, num = num)
 
 #search user
 # @plant_app.route('/user/<username>/search', methods=['POST', 'GET'])
@@ -235,36 +225,6 @@ def searchPlant(username):
         plants.append(plant)
 
     return render_template('search_plant.html', username=user)
-
-
-#follow
-# @plant_app.route('/user/searchProfile/<username>/follow', methods=['POST', 'GET'])
-# @login_required
-# def follow(username):
-#     user = User.query.filter_by(username=username).first()
-#     #user does not exist, here bc some people might edit links
-#     if user is None:
-#         flash("User does not exist")
-#         return redirect(url_for('search', username = current_user.username))
-#     else:
-#         current_user.follow(user)
-#         db.session.commit()
-#         return redirect(url_for('searchProfile',username = username))
-
-#unfollow 
-# @plant_app.route('/user/searchProfile/<username>/unfollow', methods=['POST', 'GET'])
-# @login_required
-# def unfollow(username):
-#     user = User.query.filter_by(username=username).first()
-
-#     #user does not exist, here bc some people might edit links
-#     if user is None:
-#         flash("User does not exist")
-#         return redirect(url_for('search', username = current_user.username))
-#     else:
-#         current_user.unfollow(user)
-#         db.session.commit()
-#         return redirect(url_for('searchProfile',username = username))
 
 #view user home page
 @plant_app.route('/user/<username>/home', methods = ['POST', 'GET'])
