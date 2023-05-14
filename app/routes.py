@@ -4,7 +4,6 @@ from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, CommentF
 from app.models import User, Post, Comment, Collection #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
-from werkzeug.utils import secure_filename
 import requests
 
 import urllib.request, json
@@ -170,7 +169,7 @@ def edit(username):
 #view followers
 @plant_app.route('/user/<username>/followers')
 @login_required
-def followers(username):    
+def followers(username):
     user = User.query.filter_by(username=username).first()
     num = 0
     for followers in user.followers:
@@ -259,11 +258,8 @@ def searchPlant(username):
 def home(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first_or_404()
-    if(user.profilepic) != 0:
-            image_rel_path = '../static/files/' + user.profilepic #concatenate for relative path
     #messages = Message.query.filter_by(user_id=user.id).all()
-            return render_template('home.html', user=user, image_rel_path = image_rel_path) #, messages=messages)
-
+    return render_template('home.html', user=user, form=form) #, messages=messages)
 
 #view forum page (aka view all posts)
 @plant_app.route('/user/<username>/forum', methods = ['POST', 'GET'])
