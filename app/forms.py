@@ -13,6 +13,7 @@ class LoginForm(FlaskForm):
 
 #form for account creation
 class SignupForm(FlaskForm):
+    #creating fields for signing up
     username = StringField('Username', validators=[DataRequired(message="Username required.")])
     password = PasswordField('Password', validators=[DataRequired(message="Password required.")])
     confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Password must match.')])
@@ -21,23 +22,26 @@ class SignupForm(FlaskForm):
     submit = SubmitField('Register')
     profilepic = FileField("Choose File")
 
+    #validate username to see if there is already that user name in the database; ensure unique username
     def validate_username(self, username):
         user = User.query.filter_by(username = username.data).first()
         if user is not None:        #username matches with one in a database
             raise ValidationError("Username already taken.")
         
+    #validate email to ensure unique email
     def validate_email(self, email):
         email = User.query.filter_by(email = email.data).first()
         if email is not None:        #email matches with one in a database
             raise ValidationError("Email already taken.")
 
-#form for home page posts               
+#form for forum posts               
 class PostForm(FlaskForm):
     title = StringField('Title:', validators = [DataRequired()])
     message = TextAreaField('Message:', validators = [DataRequired()])
     file = FileField('Upload Image')
     submit_post = SubmitField('Post')
 
+#form for comments
 class CommentForm(FlaskForm):
     comment_content = TextAreaField('Comment:', validators=[DataRequired()])
     submit_comment = SubmitField('Post Comment')
@@ -45,12 +49,10 @@ class CommentForm(FlaskForm):
 #form for profile editing
 class EditProfileForm(FlaskForm):
     newPicture = FileField('Profile Picture')
-    #newUsername = StringField('New Username')
     newPassword = PasswordField('New Password')
     confirmPassword = PasswordField('Confirm Changes Using Password', validators=[DataRequired()])
     newEmail = StringField('New Email')
     newPhone = StringField('New Phone')
-    #newBio = TextAreaField('Bio', validators=[Length(min=0, max=250)]) #max bio length 250 char
     submit = SubmitField('Confirm')
 
 #form for searching users         
@@ -63,6 +65,7 @@ class EditProfileForm(FlaskForm):
 #         if user is None:        #username does not match with one in a database
 #             raise ValidationError("There is no such user.")
 
+#form for searching users and plants
 class SearchForm(FlaskForm):
     searched = StringField('Search For User', validators = [DataRequired()])
     submit = SubmitField('Search')
