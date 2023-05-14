@@ -19,5 +19,8 @@ migrate = Migrate(plant_app,db)
 login = LoginManager(plant_app)
 
 login.login_view = 'login'
+login.refresh_view = 'relogin'
+login.needs_refresh_message = ('Session timed out, please re-login')
+login.needs_refresh_message_category = 'info'
 
 from app import routes, models
