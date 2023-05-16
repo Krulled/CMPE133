@@ -20,7 +20,7 @@ plant_app.config['SECRET_KEY'] = 'you-will-never-guess'
 plant_app.config['POST_UPLOAD_FOLDER'] = 'static/post_images'
 plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
 ''' CONFIG FOR UPLOADING PROFILE PICTURES '''
-plant_app.config['PROFILE_UPLOAD_FOLDER'] = 'static/profile_images' 
+plant_app.config['PROFILE_UPLOAD_FOLDER'] = 'static/css/profile_images' 
 
 '''
 added this method for session timeout
@@ -76,19 +76,30 @@ def signup():
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
             user.set_phone(current_form.phone.data) 
-        # if len(current_form.profilepic.data) != 0:
-        #     user.set_profilepic(current_form.profilepic.data) 
-        #file = current_form.profilepic.data
-        #sec_filename = secure_filename(file.filename) #name of image file submitted        
-        #if sec_filename != '': #check if the file uploaded was an image type
-        #    file_ext = os.path.splitext(sec_filename)[1]
-        #    if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
-        #       flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
-        #        return redirect('signup')
-        #    user.profilepic = sec_filename
-        #    file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
-        #    plant_app.config['UPLOAD_FOLDER'],
-        #    sec_filename)) #save the file
+       
+            '''-IMAGE HANDLING-'''
+        file = current_form.profilepic.data   # from PostForm
+        sec_filename = secure_filename(file.filename)
+        if sec_filename != '':
+            file_ext = os.path.splitext(sec_filename)[1] # file type (ex. .png, .jpg, .gif)
+            if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                flash('Uploaded image type is not supported (allowed types: jpg, png, jpeg)')
+                redirect("signup")
+            # fell through--save file locally and commit filename to DB
+            print(sec_filename)
+            ''' 
+            saves image locally by using the absolute path created from
+            joining the project directory's path, the upload folder path,
+            and the name of the file as a secure filename
+            '''
+            user.set_profilepic(sec_filename)
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                plant_app.config['PROFILE_UPLOAD_FOLDER'],
+                sec_filename))
+        else:   # no image chosen
+            sec_filename = None
+        '''----------------'''
+        user.set_profilepic(sec_filename)
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
@@ -144,19 +155,28 @@ def edit(username):
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
           
-        if current_form.newPicture.data != None:
-            file = current_form.newPicture.data
-            sec_filename = secure_filename(file.filename) #name of image file submitted        
-            if sec_filename != '': #check if the file uploaded was an image type
-                    file_ext = os.path.splitext(sec_filename)[1]
-                    if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
-                        flash("This file type cannot be uploaded (allowed types: jpg, jpeg, png)")
-                        return redirect('profile')
-                    flash('Picture changed!')
-                    db.session.commit()
-                    user.profilepic = sec_filename
-                    file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), plant_app.config['UPLOAD_FOLDER'], sec_filename)) #save the file
-                    return redirect(url_for('edit'))
+            '''-IMAGE HANDLING-'''
+        file = current_form.newPicture.data   # from PostForm
+        sec_filename = secure_filename(file.filename)
+        if sec_filename != '':
+            file_ext = os.path.splitext(sec_filename)[1] # file type (ex. .png, .jpg, .gif)
+            if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                flash('Uploaded image type is not supported (allowed types: jpg, png, jpeg)')
+                redirect(url_for('edit', username=username))
+            # fell through--save file locally and commit filename to DB
+            print(sec_filename)
+            ''' 
+            saves image locally by using the absolute path created from
+            joining the project directory's path, the upload folder path,
+            and the name of the file as a secure filename
+            '''
+            user.set_profilepic(sec_filename)
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                plant_app.config['PROFILE_UPLOAD_FOLDER'],
+                sec_filename))
+        else:   # no image chosen
+            sec_filename = None
+        '''----------------'''
 
         if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
@@ -176,6 +196,10 @@ def edit(username):
             db.session.commit()
             # else:
             #     flash('Phone number is not valid, change not saved.')
+        if len(current_form.newPicture.data.filename) != 0:
+            user.set_profilepic(current_form.newPicture.data.filename)
+            flash('profile pic changed!')
+            db.session.commit()
         return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)

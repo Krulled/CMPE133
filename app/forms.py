@@ -19,8 +19,8 @@ class SignupForm(FlaskForm):
     confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Password must match.')])
     email = StringField('Email', validators=[DataRequired(message="Email required.")])
     phone = StringField('Phone Number (Optional)', validators=None)
+    profilepic = FileField('Upload Image')
     submit = SubmitField('Register')
-    profilepic = FileField("Choose File")
 
     #validate username to see if there is already that user name in the database; ensure unique username
     def validate_username(self, username):
