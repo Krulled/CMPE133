@@ -55,9 +55,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique = True, nullable = False)
     phone = db.Column(db.String(11))
     profilepic = db.Column(db.String(256), nullable = True) # name of the image uploaded, NOT the image data itself
-    posts = db.relationship('Post', backref='author', lazy=True)
-    comments = db.relationship('Comment', backref='author', lazy=True)
-    collections = db.relationship('Collection', backref='user', lazy=True)
+    posts = db.relationship('Post', backref='author', lazy=True, cascade='all, delete')
+    comments = db.relationship('Comment', backref='author', lazy=True, cascade='all, delete')
+    collections = db.relationship('Collection', backref='user', lazy=True, cascade='all, delete')
 
     def has_plant(self, plant_id):
         for collection in self.collections:
