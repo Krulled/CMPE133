@@ -6,12 +6,6 @@ from flask_login import UserMixin
 from datetime import datetime
 
 
-
-#table of followers
-followers = db.Table('followers',
-            db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-            db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
-
 #post class
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key = True)
@@ -55,37 +49,15 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique = True, nullable = False)
     phone = db.Column(db.String(11))
     profilepic = db.Column(db.String(256), nullable = True) # name of the image uploaded, NOT the image data itself
-    posts = db.relationship('Post', backref='author', lazy=True)
-    comments = db.relationship('Comment', backref='author', lazy=True)
-    collections = db.relationship('Collection', backref='user', lazy=True)
+    posts = db.relationship('Post', backref='author', lazy=True, cascade='all, delete')
+    comments = db.relationship('Comment', backref='author', lazy=True, cascade='all, delete')
+    collections = db.relationship('Collection', backref='user', lazy=True, cascade='all, delete')
 
     def has_plant(self, plant_id):
         for collection in self.collections:
             if collection.plant_id == plant_id:
                 return True
         return False
-
-
-    #setting followed and user's relationship
-    followed = db.relationship(
-        'User', secondary=followers,
-        primaryjoin=(followers.c.follower_id == id),
-        secondaryjoin=(followers.c.followed_id == id),
-        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
-
-    #follow
-    def follow(self, user):
-        if not self.is_following(user):
-            self.followed.append(user)
-
-    #unfollow
-    def unfollow(self, user):
-        if self.is_following(user):
-            self.followed.remove(user)
-
-    #
-    def is_following(self, user):
-        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
