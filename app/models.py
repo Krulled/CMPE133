@@ -84,6 +84,7 @@ class Collection(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     plant_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    start_date = db.Column(db.DateTime, default=datetime.utcnow)
 
 @login.user_loader
 def load_user(id):

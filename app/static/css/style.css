@@ -123,3 +123,12 @@ picture {
   border-color: rgb(148, 93, 26);
   background-color: rgb(255, 255, 255);
 }
+
+.fc-bg .fc-state-highlight{ 
+  background-color:#009688 !important; 
+} 
+
+#calendar {
+	width: 100%;
+	margin: 0 auto;
+}
