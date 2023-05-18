@@ -44,7 +44,7 @@
       {% endif %}
     </ul>
       <form class="form-inline my-2 my-lg-0" method="POST" action="{{url_for('search')}}">
-        {# {{ form.hidden_tag() }} #}
+        {{ form.hidden_tag() }}
         <input name = "searched" class="form-control mr-sm-2" type="search" placeholder="Search for a Plant" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
