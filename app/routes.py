@@ -216,8 +216,38 @@ def searchPlant(username):
 def home(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first_or_404()
-    #messages = Message.query.filter_by(user_id=user.id).all()
-    return render_template('home.html', user=user, form=form) #, messages=messages)
+    collections = Collection.query.filter_by(user_id=user.id)
+    plant_ids = [c.plant_id for c in collections]
+    plant_data = []
+    for plant_id in plant_ids:
+        api_url = f'https://perenual.com/api/species/details/{plant_id}?key=sk-CwED63eab143ecfef46'
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            plant = response.json()
+            # Get the start date for this plant from the collection
+            collection = Collection.query.filter_by(user_id=user.id, plant_id=plant['id']).first()
+            if collection:
+                plant['start_date'] = collection.start_date
+            else:
+                plant['start_date'] = None
+            plant_data.append(plant)
+    events = []
+    for plant in plant_data:
+        startDate = plant['start_date'].strftime('%Y-%m-%d')
+        if (plant['watering'] == 'Frequent'):
+            recurring = 'FREQ=WEEKLY;BYDAY=MO,FR'
+        elif (plant['watering'] == 'Average'):
+            recurring = 'FREQ=WEEKLY'
+        else:
+            recurring = 'FREQ=MONTHLY'
+        dict = {
+            'plant': plant['common_name'],
+            'startDate': startDate,
+            'recurring' : recurring
+        }
+        events.append(dict)
+        print(dict['recurring'])
+    return render_template('home.html', user=user, form=form, plant_data=plant_data, events=events)
 
 #view forum page (aka view all posts)
 @plant_app.route('/user/<username>/forum', methods = ['POST', 'GET'])

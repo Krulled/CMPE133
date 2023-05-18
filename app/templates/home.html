@@ -1,37 +1,63 @@
 {% extends "base.html" %}
-
 {% block mycontent %}
 
 <head>
-    <link rel="stylesheet" type = "text/css" href="{{ url_for('static',filename='css/style.css') }}">
-    <title>{{user.username}}'s Home</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.css" /> -->
+    <link href="{{ url_for('static',filename='css/mobiscroll.javascript.min.css') }}" rel="stylesheet" />
+    <script src="{{ url_for('static',filename='js/mobiscroll.javascript.min.js') }}"></script>
+
 </head>
+    
+<body>
+    <center>    
+        <picture>
+            <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297" alt="pladdict logo" style="width:340px;height:100px;">
+        </picture>
 
-<center>
-    <picture>
-        <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297" alt="pladdict logo" style="width:340px;height:100px;">
-    </picture>
-
-    {% for message in get_flashed_messages() %}
+        {% for message in get_flashed_messages() %}
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 {{ message }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-    {% endfor %}
+        {% endfor %}
 
-<body>
-    <div class = "greeting">
-        Welcome to pladdict! <br>
-        Hello {{user.username}}</div>
-    <br>
-    <br>
-    <p>
-        [insert calendar here]
-    </p>
-</body>
+        <div class = "greeting">
+            Welcome to pladdict! <br>
+            Hello {{user.username}}
+        </div>
+        <br>
+        <br>
+        <!-- <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment-with-locales.min.js"></script>
+        
+        <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.js"></script> -->
+        <!-- <div id="demo-loading-inline-data"></div> -->
+        <div id="eventcalendar"></div>
+        <script>
+            mobiscroll.eventcalendar('#eventcalendar', {
+                data: [
+                    {% for event in events %}
+                        {
+                            start: '{{event.startDate}}T00:00:00',
+                            title : '{{event.plant}}',
+                            recurring: '{{event.recurring}}'
+                            
+                        },
+                    {% endfor %}
+                ]
+            });
+            mobiscroll.setOptions({
+                theme: 'ios',
+                themeVariant: 'light'
+            });
+        </script>
 
-</center>
+        <!-- <script src="{{url_for('static', filename='script/events.js')}}"></script> -->
 
-{% endblock %}
+        
+ </body>
+
+ {% endblock %}
