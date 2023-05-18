@@ -41,6 +41,9 @@
         <small class="text-muted">{{ post.time_posted.strftime('%Y-%m-%d') }}</small>
       </div>
       <h2 class="article-title">{{ post.post_title }}</h2>
+      {% if image != None %} {# added if statement b/c post image is optional #}
+        <img src= {{image}} style="width:256px; height:256px;">
+      {% endif %}
       <p class="article-content">{{ post.post_content }}</p>
     </div>
   </article>

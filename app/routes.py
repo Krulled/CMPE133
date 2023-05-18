@@ -1,5 +1,5 @@
 from app import plant_app, db
-from flask import render_template, redirect, flash, request, url_for
+from flask import render_template, redirect, flash, request, url_for, session
 from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, CommentForm, SearchForm
 from app.models import User, Post, Comment, Collection #, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,7 +7,29 @@ from flask_login import current_user, login_required, login_user, logout_user
 import requests
 
 import urllib.request, json
-import os
+import os                                       # for saving images 
+from werkzeug.utils import secure_filename      # for getting absolute path of image
+
+# import phonenumbers # library to validate phone number, unused for ease of testing
+
+#timeout stuff
+from datetime import timedelta
+
+''' CONFIG FOR UPLOADING IMAGES TO POSTS '''
+plant_app.config['SECRET_KEY'] = 'you-will-never-guess'
+plant_app.config['POST_UPLOAD_FOLDER'] = 'static/post_images'
+plant_app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png'] 
+''' CONFIG FOR UPLOADING PROFILE PICTURES '''
+plant_app.config['PROFILE_UPLOAD_FOLDER'] = 'static/css/profile_images' 
+
+'''
+added this method for session timeout
+if user is inactive for 15 minutes (no route changes), timeout session
+'''
+@plant_app.before_request
+def before_request():
+    session.permanent = True
+    plant_app.permanent_session_lifetime = timedelta(minutes=15) 
 
 @plant_app.before_first_request
 def create_tables():
@@ -54,8 +76,30 @@ def signup():
         user.set_email(current_form.email.data)
         if len(current_form.phone.data) != 0:
             user.set_phone(current_form.phone.data) 
-        # if len(current_form.profilepic.data) != 0:
-        #     user.set_profilepic(current_form.profilepic.data) 
+       
+            '''-IMAGE HANDLING-'''
+        file = current_form.profilepic.data   # from PostForm
+        sec_filename = secure_filename(file.filename)
+        if sec_filename != '':
+            file_ext = os.path.splitext(sec_filename)[1] # file type (ex. .png, .jpg, .gif)
+            if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                flash('Uploaded image type is not supported (allowed types: jpg, png, jpeg)')
+                redirect("signup")
+            # fell through--save file locally and commit filename to DB
+            print(sec_filename)
+            ''' 
+            saves image locally by using the absolute path created from
+            joining the project directory's path, the upload folder path,
+            and the name of the file as a secure filename
+            '''
+            user.set_profilepic(sec_filename)
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                plant_app.config['PROFILE_UPLOAD_FOLDER'],
+                sec_filename))
+        else:   # no image chosen
+            sec_filename = None
+        '''----------------'''
+        user.set_profilepic(sec_filename)
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')
@@ -110,29 +154,55 @@ def edit(username):
             flash('Incorrect password, changes not saved.')
             # if passwords don't match, send user to edit again
             return redirect(url_for('edit', username=username))
+          
+            '''-IMAGE HANDLING-'''
+        file = current_form.newPicture.data   # from PostForm
+        sec_filename = secure_filename(file.filename)
+        if sec_filename != '':
+            file_ext = os.path.splitext(sec_filename)[1] # file type (ex. .png, .jpg, .gif)
+            if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                flash('Uploaded image type is not supported (allowed types: jpg, png, jpeg)')
+                redirect(url_for('edit', username=username))
+            # fell through--save file locally and commit filename to DB
+            print(sec_filename)
+            ''' 
+            saves image locally by using the absolute path created from
+            joining the project directory's path, the upload folder path,
+            and the name of the file as a secure filename
+            '''
+            user.set_profilepic(sec_filename)
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                plant_app.config['PROFILE_UPLOAD_FOLDER'],
+                sec_filename))
+        else:   # no image chosen
+            sec_filename = None
+        '''----------------'''
 
-        if current_form.newPicture.data != None:
-            user.set_profilepic(current_form.newPicture.data)
-            flash('Picture changed!')
-            db.session.commit()
-        
         if len(current_form.newPassword.data) != 0:
             user.set_password(current_form.newPassword.data)
             flash('Password changed!')
             db.session.commit()
+
+        if len(current_form.newEmail.data) != 0:
+            user.set_email(current_form.newEmail.data)
+            flash('Email changed!')
+            db.session.commit()
+
+        if len(current_form.newPhone.data) != 0:
+            # phoneNumber = phonenumbers.parse(current_form.newPhone.data)
+            # if phonenumbers.is_possible_number(phoneNumber):
+            user.set_phone(current_form.newPhone.data)
+            flash('Phone number changed!')
+            db.session.commit()
+            # else:
+            #     flash('Phone number is not valid, change not saved.')
+        if len(current_form.newPicture.data.filename) != 0:
+            user.set_profilepic(current_form.newPicture.data.filename)
+            flash('profile pic changed!')
+            db.session.commit()
         return redirect(url_for('login'))
 
     return render_template('edit.html' ,user=user, form=current_form)
-
-#view followers
-@plant_app.route('/user/<username>/followers')
-@login_required
-def followers(username):
-    user = User.query.filter_by(username=username).first()
-    num = 0
-    for followers in user.followers:
-        num += 1
-    return render_template('followers.html', user=user, num = num)
 
 #search user
 # @plant_app.route('/user/<username>/search', methods=['POST', 'GET'])
@@ -180,36 +250,6 @@ def searchPlant(username):
 
     return render_template('search_plant.html', username=user)
 
-
-#follow
-# @plant_app.route('/user/searchProfile/<username>/follow', methods=['POST', 'GET'])
-# @login_required
-# def follow(username):
-#     user = User.query.filter_by(username=username).first()
-#     #user does not exist, here bc some people might edit links
-#     if user is None:
-#         flash("User does not exist")
-#         return redirect(url_for('search', username = current_user.username))
-#     else:
-#         current_user.follow(user)
-#         db.session.commit()
-#         return redirect(url_for('searchProfile',username = username))
-
-#unfollow 
-# @plant_app.route('/user/searchProfile/<username>/unfollow', methods=['POST', 'GET'])
-# @login_required
-# def unfollow(username):
-#     user = User.query.filter_by(username=username).first()
-
-#     #user does not exist, here bc some people might edit links
-#     if user is None:
-#         flash("User does not exist")
-#         return redirect(url_for('search', username = current_user.username))
-#     else:
-#         current_user.unfollow(user)
-#         db.session.commit()
-#         return redirect(url_for('searchProfile',username = username))
-
 #view user home page
 @plant_app.route('/user/<username>/home', methods = ['POST', 'GET'])
 @login_required
@@ -254,7 +294,7 @@ def home(username):
 @login_required
 def forum(username):
     form = SearchForm()
-    list_of_posts = Post.query.all()
+    list_of_posts = Post.query.order_by(Post.time_posted.desc()).all() #Post.query.all()
     # current_form = PostForm()
     # user = User.query.filter_by(username=username).first_or_404()
     # #messages = Message.query.filter_by(user_id=user.id).all()
@@ -266,11 +306,33 @@ def forum(username):
 def new_post(username):
     current_form = PostForm()
     if current_form.validate_on_submit():
-        post = Post(post_title=current_form.title.data, post_content=current_form.message.data, author=current_user) # may need to add author_id here
+        '''-IMAGE HANDLING-'''
+        file = current_form.file.data   # from PostForm
+        sec_filename = secure_filename(file.filename)
+        if sec_filename != '':
+            file_ext = os.path.splitext(sec_filename)[1] # file type (ex. .png, .jpg, .gif)
+            if file_ext not in plant_app.config['UPLOAD_EXTENSIONS']:
+                flash('Uploaded image type is not supported (allowed types: jpg, png, jpeg)')
+                redirect('new_post')
+            # fell through--save file locally and commit filename to DB
+            print(sec_filename)
+            ''' 
+            saves image locally by using the absolute path created from
+            joining the project directory's path, the upload folder path,
+            and the name of the file as a secure filename
+            '''
+            file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                plant_app.config['POST_UPLOAD_FOLDER'],
+                sec_filename))
+        else:   # no image chosen
+            sec_filename = None
+        '''----------------'''
+        post = Post(post_title=current_form.title.data, post_content=current_form.message.data, 
+                    author=current_user, image=sec_filename) 
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success') # 'success' is a category for bootstrap, is optional
-        return redirect(url_for('home', username = current_user.username))
+        return redirect(url_for('forum', username = current_user.username))
     return render_template('create_post.html', title='New Post', form=current_form, legend='New Post')
 
 # view a post (from the forum)
@@ -279,7 +341,12 @@ def new_post(username):
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     post_comments = Post.query.get_or_404(post_id).comments.all()     # intended to display all comments replying to the current post
-    #print(post_comments)
+    '''-IMAGE HANDLING-'''
+    if post.image != None:
+        image_rel_path = '/static/post_images/' + post.image  
+        print(image_rel_path)
+    else: image_rel_path = None
+    '''----------------'''
     current_form = CommentForm()
     if current_form.validate_on_submit():
         comment = Comment(author=current_user, comment_content=current_form.comment_content.data, post_id=post_id)
@@ -287,9 +354,11 @@ def post(post_id):
         db.session.commit()
         flash('Your comment has been posted!', 'success')       # displays at the bottom of the comments page, should be moved
         return redirect(url_for('post', post_id=post_id))
-    return render_template('post.html', post=post, form=current_form, post_comments=post_comments)
+    return render_template('post.html', post=post, form=current_form,
+                            post_comments=post_comments, image=image_rel_path)
 
 @plant_app.route('/search', methods = ['GET', 'POST'])
+@login_required
 def search():
     form = SearchForm()
     if form.validate_on_submit():
@@ -304,6 +373,7 @@ def search():
     return redirect(url_for('home', username = current_user.username))
 
 @plant_app.route('/user/<username>/collection')
+@login_required
 def collection(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first()
@@ -318,6 +388,7 @@ def collection(username):
     return render_template('collection.html', user=user, username=current_user.username, form=form, plant_data=plant_data)
 
 @plant_app.route('/user/<username>/add-to-collection', methods = ['POST'])
+@login_required
 def add_to_collection(username):
     plant_id = request.form.get('plant_id')
     user = User.query.filter_by(username=username).first()
@@ -328,6 +399,7 @@ def add_to_collection(username):
     return redirect(url_for('collection', username=current_user.username))
 
 @plant_app.route('/user/<username>/remove-from-collection', methods=['POST'])
+@login_required
 def delete_from_collection(username):
     plant_id = request.form.get('plant_id')
     collection_item = Collection.query.filter_by(plant_id=plant_id).first()

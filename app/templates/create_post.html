@@ -16,7 +16,9 @@
 
 
 <div class="content-section">
-    <form method="POST" action="">
+    {# enctype="multipart/form-data" IS MANDATORY FOR FILE UPLOADS #}
+    <form method="POST", action="", enctype="multipart/form-data"> 
+        {{ form.csrf_token }}
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">{{ legend }}</legend>
@@ -45,6 +47,10 @@
                 {% else %}
                     {{ form.message(class="form-control form-control-lg") }}
                 {% endif %}
+            </div>
+            <div>
+                {{form.file.label}}
+                {{form.file()}}
             </div>
         </fieldset>
         <div class="form-group">
