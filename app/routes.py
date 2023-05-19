@@ -120,8 +120,9 @@ def logout():
 @plant_app.route('/user/<username>/deleteConfirm', methods=['POST', 'GET'])
 @login_required
 def deleteConfirm(username):
+    form = SearchForm()
     user = User.query.filter_by(username=username).first()
-    return render_template('delete.html', user=user)
+    return render_template('delete.html', user=user, form = form)
 
 #delete account
 @plant_app.route('/user/<username>/delete', methods=['POST', 'GET'])
