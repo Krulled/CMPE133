@@ -19,24 +19,20 @@
         {% endif %}
     </center>
     <br>
+    {% if user == current_user %}
     <div class="profileBox">
         <p>
-        {% if user == current_user %}
         Username: {{user.username}}<br>
         Email address: {{user.email}}<br>
         Phone number: {{user.phone}}<br>
-        {% else %}
-        Username: {{user.username}}<br>
-        {% endif %}
 
         {# must be current user's profile to edit and delete account #}
-        {% if user == current_user %}
-            <button><a href="{{ url_for('edit', username=current_user.username) }}">Edit</a></button>
-            <br>
-            <button><a href="{{ url_for('deleteConfirm', username=current_user.username) }}">Delete Account</a></button>
-        {% endif %}
+        <button><a href="{{ url_for('edit', username=current_user.username) }}">Edit</a></button>
+        <br>
+        <button><a href="{{ url_for('deleteConfirm', username=current_user.username) }}">Delete Account</a></button>
         </p>
     </div>
+    {% endif %}
 </center>
 <br>
 <center>
