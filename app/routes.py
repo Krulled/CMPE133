@@ -97,7 +97,7 @@ def signup():
                 plant_app.config['PROFILE_UPLOAD_FOLDER'],
                 sec_filename))
         else:   # no image chosen
-            sec_filename = None
+            sec_filename = ''
         '''----------------'''
         user.set_profilepic(sec_filename)
         db.session.add(user)
@@ -213,29 +213,18 @@ def edit(username):
 
     return render_template('edit.html' ,user=user, form=current_form)
 
-#search user
-# @plant_app.route('/user/<username>/search', methods=['POST', 'GET'])
-# @login_required
-# def search(username):
-#     current_form = SearchUsersForm()
-
-#     #On submission, checks if data is acccepted by all field validators
-#     if current_form.validate_on_submit():
-#         if(current_form.search.data == current_user.username):
-#             flash("You cannot search for yourself!")
-#             return redirect(url_for('search', username = current_user.username))
-
-#         user = User.query.filter_by(username=current_form.search.data).first()
-#         return render_template(('searchResults.html'), form = current_form, username = user.username)
-
-#     return render_template('search.html', user=username, form= current_form)
-
 #search profile
 @plant_app.route('/user/searchProfile/<username>', methods=['POST', 'GET'])
 @login_required
 def searchProfile(username):
-    user = User.query.filter_by(username=username).first()
-    return render_template('search_profile.html', username=user)
+    form = SearchForm()
+    usernames = User.query
+    flash(current_user.username)
+    user = User.query.filter_by(username=current_user.username).first()
+    username_searched = username
+    username = usernames.filter(User.username.like('%' + username_searched + '%'))
+    username = username.order_by(User.id).all()
+    return render_template('search_results.html', searched=username_searched, username=user, usernames = username, form=form)
 
 #search plant
 @plant_app.route('/user/searchPlant/<username>', methods=['POST', 'GET'])
@@ -373,10 +362,21 @@ def search():
             api_url = "https://perenual.com/api/species-list?key=sk-CwED63eab143ecfef46&q=" + query
             response = requests.get(api_url)
             data = response.json()
-            return render_template('search.html', data=data, search = query, form=form, username=current_user.username)
+            return render_template('search.html', searched = query, data=data, search = query, form=form, username=current_user.username)
     else:
         flash("You didn't search anything!")
     return redirect(url_for('home', username = current_user.username))
+
+#going back to searching plants after searching for users
+@plant_app.route('/search/<searched>', methods = ['GET', 'POST'])
+@login_required
+def back2search(searched):
+    form = SearchForm()
+    query = searched
+    api_url = "https://perenual.com/api/species-list?key=sk-CwED63eab143ecfef46&q=" + query
+    response = requests.get(api_url)
+    data = response.json()
+    return render_template('search.html', data=data, search = query, form=form, username=current_user.username)
 
 #user's plant collection
 @plant_app.route('/user/<username>/collection')

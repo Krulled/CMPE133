@@ -14,7 +14,7 @@
 </center>
 
 <div class = "smallerTitle">
-    Searched for: {{form.searched.data}}
+    Searched for: {{search}}
 </div>
 
 <div class = "tabs">
@@ -25,7 +25,7 @@
     </div>
     <div class = "tabBox">
       <div class = "tabText">
-        <a href="{{ url_for('searchProfile', username = form.searched.data) }}">Users</a>
+        <a href="{{ url_for('searchProfile', username = search) }}">Users</a>
       </div>
   </div>
 </div>

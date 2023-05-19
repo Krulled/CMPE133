@@ -7,13 +7,33 @@
     <title>Search</title>
 </head>
 
+<center>
+  <picture>
+      <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297" alt="pladdict logo" style="width:340px;height:100px;">
+  </picture>
+</center>
+
+<div class = "smallerTitle">
+    Searched for: {{searched}}
+</div>
+
+<div class = "tabs">
+    <div class = "tabBox">
+        <div class = "tabText">
+          <a href="{{ url_for('back2search', searched = searched) }}">Plants</a>
+        </div>
+    </div>
+    <div class = "tabBox">
+      <div class = "tabText">
+        Users</a>
+      </div>
+  </div>
+</div>
+
 {% block body %}
     <br />
-    <br />
-    <h2> You searched for: {{ searched }} </h2>
-    <br />
-    {% if username %}
-        {% for username in username %}
+    {% if usernames %}
+        {% for username in usernames %}
           {% if username.username != current_user.username %}
             <section class="vh-100" style="background-color: #9de2ff;">
                 <div class="container py-5 h-100">
@@ -24,26 +44,15 @@
                           <div class="d-flex text-black">
                             <div class="flex-shrink-0">
                                 {% if username.profile_picture %}
-                                <img width = "200px" src = "{{ url_for('static', filename='css/images/' + username.profile_picture)}}"/>
+                                <img width = "200px" src = "{{ url_for('static', filename='css/profile_images/' + username.profilepic)}}"/>
                                 {% else %}
-                                <img width = "200px" src = "{{ url_for('static', filename='css/images/default.jpeg')}}"/>
+                                <img width = "200px" src = "{{ url_for('static', filename='css/profile_images/noprofilepic.png')}}"/>
                                 {% endif %}                
                             </div>
                             <div class="flex-grow-1 ms-3">
                               <h5 class="mb-1"> {{ username.username }}</h5>
-                              <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
-                                style="background-color: #efefef;">
-                                  <p class="mb-0"> Followers: {{username.followers.count()}}</p>
-                              </div>
                               <div class="d-flex pt-1">
-                                <a href="/profile/{{username.username}}" type="button" class="btn btn-outline-primary me-1 flex-grow-1">Profile</a>
-                                {% if username.id != current_user.username.id %}
-                                  {% if not current_user.is_following(username) %}
-                                    <a class="btn btn-outline-primary me-1 flex-grow-1" href="{{ url_for('follow', username=username.username) }}">Follow</a>
-                                  {% else %}
-                                    <a class="btn btn-outline-primary me-1 flex-grow-1" href="{{ url_for('unfollow', username=username.username) }}">Unfollow</a>
-                                  {% endif %}
-                                {% endif %}
+                                <a href="{{url_for('profile', username=username.username)}}" type="button" class="btn btn-outline-primary me-1 flex-grow-1">Profile</a>
                               </div>
                             </div>
                           </div>
@@ -62,4 +71,6 @@
             There were no users with the username: {{ searched }}
         </p>
     {% endif %}
+{% endblock %}
+
 {% endblock %}
