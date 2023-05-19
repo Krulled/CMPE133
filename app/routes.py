@@ -140,8 +140,16 @@ def profile(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first_or_404()
     #filter posts by author and descending order by time
-    list_of_posts = Post.query.filter_by(author=user).order_by(Post.time_posted.desc()).all() #Post.query.all()
-    return render_template('profile.html', user=user, list_of_posts=list_of_posts, form=form)
+    list_of_posts = Post.query.filter_by(author=user).order_by(Post.time_posted.desc()).all()
+    collections = Collection.query.filter_by(user_id=user.id)
+    plant_id = [c.plant_id for c in collections]
+    plant_data = []
+    for plant_id in plant_id:
+        api_url = f'https://perenual.com/api/species/details/{plant_id}?key=sk-CwED63eab143ecfef46'
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            plant_data.append(response.json())   
+    return render_template('profile.html', user=user, list_of_posts=list_of_posts, plant_data=plant_data, form=form)
 
 #edit profile
 @plant_app.route('/user/<username>/profile/edit', methods=['POST', 'GET'])
@@ -296,9 +304,6 @@ def home(username):
 def forum(username):
     form = SearchForm()
     list_of_posts = Post.query.order_by(Post.time_posted.desc()).all() #Post.query.all()
-    # current_form = PostForm()
-    # user = User.query.filter_by(username=username).first_or_404()
-    # #messages = Message.query.filter_by(user_id=user.id).all()
     return render_template('forum.html', list_of_posts=list_of_posts, form=form )
 
 #create a new post
@@ -373,6 +378,7 @@ def search():
         flash("You didn't search anything!")
     return redirect(url_for('home', username = current_user.username))
 
+#user's plant collection
 @plant_app.route('/user/<username>/collection')
 @login_required
 def collection(username):
@@ -388,6 +394,7 @@ def collection(username):
             plant_data.append(response.json())   
     return render_template('collection.html', user=user, username=current_user.username, form=form, plant_data=plant_data)
 
+#add plant to plant collection
 @plant_app.route('/user/<username>/add-to-collection', methods = ['POST'])
 @login_required
 def add_to_collection(username):
@@ -399,6 +406,7 @@ def add_to_collection(username):
     flash('Successfully added to collection. ')
     return redirect(url_for('collection', username=current_user.username))
 
+#delete plant from plant collection
 @plant_app.route('/user/<username>/remove-from-collection', methods=['POST'])
 @login_required
 def delete_from_collection(username):
