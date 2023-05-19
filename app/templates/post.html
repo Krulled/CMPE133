@@ -33,6 +33,11 @@
     </div>
   </form>
 
+  {# {% if  %} #}
+    <button><a href="{{ url_for('delete_post', post_id=post.post_id) }}">Delete Post</a></button>
+    <br>
+  {# {% endif %} #}
+
   <article class="media content-section">
     {# <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> #}
     <div class="media-body">
