@@ -31,7 +31,7 @@
 
         {# must be current user's profile to edit and delete account #}
         {% if user == current_user %}
-            <button><a href="{{ url_for('edit', username=current_user.username) }}">Edit</a></button>
+            <button><a href="{{ url_for('edit', username=current_user.username ) }}">Edit</a></button>
             <br>
             <button><a href="{{ url_for('deleteConfirm', username=current_user.username) }}">Delete Account</a></button>
         {% endif %}
