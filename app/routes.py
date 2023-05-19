@@ -362,9 +362,12 @@ def post(post_id):
 @login_required
 def delete_post(post_id):
     post = Post.query.filter_by(post_id=post_id).first_or_404()
-    # if post.author_id != user.id:
-    #     flash('This post can only be deleted by its author')
-    #     return redirect(url_for('post', post_id=post_id))
+    currentUser = User.query.filter_by(username=current_user.username).first_or_404()
+    print(currentUser.id)
+    print(post.author_id)
+    if post.author_id != currentUser.id:
+        flash('This post can only be deleted by its author')
+        return redirect(url_for('post', post_id=post_id))
     db.session.delete(post)
     db.session.commit()
     flash('Post deleted successfully!')
