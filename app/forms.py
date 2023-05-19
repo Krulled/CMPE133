@@ -36,6 +36,7 @@ class SignupForm(FlaskForm):
 
 #form for forum posts               
 class PostForm(FlaskForm):
+    #creating fields for posting
     title = StringField('Title:', validators = [DataRequired()])
     message = TextAreaField('Message:', validators = [DataRequired()])
     file = FileField('Upload Image')
@@ -43,11 +44,13 @@ class PostForm(FlaskForm):
 
 #form for comments
 class CommentForm(FlaskForm):
+    #creating fields for commenting
     comment_content = TextAreaField('Comment:', validators=[DataRequired()])
     submit_comment = SubmitField('Post Comment')
 
 #form for profile editing
 class EditProfileForm(FlaskForm):
+    #creating fields for editing
     newPicture = FileField('Profile Picture')
     newPassword = PasswordField('New Password')
     confirmPassword = PasswordField('Confirm Changes Using Password', validators=[DataRequired()])
@@ -67,5 +70,6 @@ class EditProfileForm(FlaskForm):
 
 #form for searching users and plants
 class SearchForm(FlaskForm):
+    #creating fields for searching
     searched = StringField('Search For User', validators = [DataRequired()])
     submit = SubmitField('Search')

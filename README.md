@@ -14,16 +14,24 @@ Pip - https://pip.pypa.io/en/stable/installation/
 ```
 
 ## Required Libraries
-To run this app you will need the following libraries and packages:
+To run this app you will need to install the following libraries and packages:
 * SQL Alchemy
 * Flask
 * Flask wtf
 * wtforms
 * Flask Migrate
 * Flask Login
-* wekzeug
+* werkzeug
 * datetime
 * requests
+* jinja2
+
+Other modules used include:
+* urllib
+* json
+* os
+
+However, these are built-in packages and do not need to be installed.
 
 Therefore, in your terminal, use the following commands:
 
@@ -37,6 +45,7 @@ $ pip install flask-login
 $ pip install werkzeug
 $ pip install datetime
 $ pip install requests
+$ pip install jinja2
 ```
 
 ## Launching the App
