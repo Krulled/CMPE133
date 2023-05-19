@@ -10,33 +10,10 @@
     <img src="https://media.discordapp.net/attachments/758931822368784434/1086463776959762472/Screenshot_2023-03-17_at_6.39.05_PM.png?width=1007&height=297" alt="pladdict logo" style="width:340px;height:100px;">
 </picture>
 
-  <form method="POST" action="">
-    {{ form.hidden_tag() }}
-    <fieldset class="form-group">
-        <legend class="border-bottom mb-4">{{ legend }}</legend>
-        <div class="form-group">
-            {{ form.comment_content.label(class="form-control-label") }}
-            {% if form.comment_content.errors %}
-                {{ form.comment_content(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                    {% for error in form.comment_content.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ form.comment_content(class="form-control form-control-lg") }}
-            {% endif %}
-        </div>
-    </fieldset>
-    <div class="form-group">
-        {{ form.submit_comment(class="btn btn-outline-info") }}
-    </div>
-  </form>
-
-  {# {% if  %} #}
+  {% if post.author == current_user%}
     <button><a href="{{ url_for('delete_post', post_id=post.post_id) }}">Delete Post</a></button>
     <br>
-  {# {% endif %} #}
+  {% endif %}
 
   <article class="media content-section">
     {# <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> #}
@@ -45,14 +22,40 @@
         <a class="mr-2" href="{{url_for('profile', username=post.author.username)}}">{{ post.author.username }}</a>
         <small class="text-muted">{{ post.time_posted.strftime('%Y-%m-%d') }}</small>
       </div>
-      <h2 class="article-title">{{ post.post_title }}</h2>
+      <h2 class="article-title">{{ post.post_title }}</h2> <br>
       {% if image != None %} {# added if statement b/c post image is optional #}
         <img src= {{image}} style="width:256px; height:256px;">
       {% endif %}
-      <p class="article-content">{{ post.post_content }}</p>
+      <br><p class="article-content">{{ post.post_content }}</p>
     </div>
   </article>
 </center>
+
+<div class = "smallerTitle">Comments:</div>
+
+<form method="POST" action="">
+  {{ form.hidden_tag() }}
+  <fieldset class="form-group">
+      <legend class="border-bottom mb-4">{{ legend }}</legend>
+      <div class="form-group">
+          {{ form.comment_content.label(class="form-control-label") }}
+          {% if form.comment_content.errors %}
+              {{ form.comment_content(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                  {% for error in form.comment_content.errors %}
+                      <span>{{ error }}</span>
+                  {% endfor %}
+              </div>
+          {% else %}
+              {{ form.comment_content(class="form-control form-control-lg") }}
+          {% endif %}
+      </div>
+  </fieldset>
+  <div class="form-group">
+      {{ form.submit_comment(class="btn btn-outline-info") }}
+  </div>
+</form>
+
 
   {% for comment in post_comments %}
     <article class="media content-section">

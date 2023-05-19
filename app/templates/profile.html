@@ -37,13 +37,15 @@
 <br>
 <center>
     <div class = "smallerTitle">{{user.username}}'s Plants</div>
+    <br>
     {%for plant in plant_data %}
-        {{plant.common_name}} also known as {{plant.scientific_name[0]}}
+        {{plant.common_name}} also known as {{plant.scientific_name[0]}}<br>
     {% endfor %}
 </center>
 <br>
 <center>
     <div class = "smallerTitle">{{user.username}}'s Posts</div>
+    <br>
     {% for post in list_of_posts %}
     <p>
         <article class="media content-section">
