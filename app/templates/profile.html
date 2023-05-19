@@ -21,9 +21,13 @@
     <br>
     <div class="profileBox">
         <p>
+        {% if user == current_user %}
         Username: {{user.username}}<br>
         Email address: {{user.email}}<br>
         Phone number: {{user.phone}}<br>
+        {% else %}
+        Username: {{user.username}}<br>
+        {% endif %}
 
         {# must be current user's profile to edit and delete account #}
         {% if user == current_user %}
