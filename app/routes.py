@@ -1,7 +1,7 @@
 from app import plant_app, db
 from flask import render_template, redirect, flash, request, url_for, session
 from app.forms import LoginForm, SignupForm, PostForm, EditProfileForm, CommentForm, SearchForm
-from app.models import User, Post, Comment, Collection #, Message
+from app.models import User, Post, Comment, Collection
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 import requests
@@ -112,7 +112,6 @@ def signup():
 def logout():
     if current_user.is_authenticated:
         logout_user()
-        #flash('You have logged out')
         return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
@@ -140,7 +139,9 @@ def delete(username):
 def profile(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('profile.html', user=user, form=form)
+    #filter posts by author and descending order by time
+    list_of_posts = Post.query.filter_by(author=user).order_by(Post.time_posted.desc()).all() #Post.query.all()
+    return render_template('profile.html', user=user, list_of_posts=list_of_posts, form=form)
 
 #edit profile
 @plant_app.route('/user/<username>/profile/edit', methods=['POST', 'GET'])
@@ -250,7 +251,7 @@ def searchPlant(username):
 
     return render_template('search_plant.html', username=user)
 
-#view user home page
+#view user home page with calendar
 @plant_app.route('/user/<username>/home', methods = ['POST', 'GET'])
 @login_required
 def home(username):

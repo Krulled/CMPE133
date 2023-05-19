@@ -8,6 +8,7 @@ from datetime import datetime
 
 #post class
 class Post(db.Model):
+    #columns in the post table
     post_id = db.Column(db.Integer, primary_key = True)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     post_title = db.Column(db.String(32), nullable = False)
@@ -20,6 +21,7 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.post_title}', '{self.time_posted}')"
+    
     ''' not used
     def set_author(self, author_id):
         self.author_id = author_id
@@ -33,8 +35,10 @@ class Post(db.Model):
     def set_post_content(self, post_content):
         self.post_content = post_content
     '''
+
 #comment class
 class Comment(db.Model):
+    #columns in the comments table
     post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), nullable=False)
     comment_id = db.Column(db.Integer, primary_key = True)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -43,6 +47,7 @@ class Comment(db.Model):
 
 #user class
 class User(db.Model, UserMixin):
+    #columns in the user table
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(32), unique = True, nullable = False) #dont want username to be null, 32 characters max
     password = db.Column(db.String(32), nullable = False)
@@ -53,15 +58,18 @@ class User(db.Model, UserMixin):
     comments = db.relationship('Comment', backref='author', lazy=True, cascade='all, delete')
     collections = db.relationship('Collection', backref='user', lazy=True, cascade='all, delete')
 
+    #check if user has specified plant in their plant collection
     def has_plant(self, plant_id):
         for collection in self.collections:
             if collection.plant_id == plant_id:
                 return True
         return False
 
+    #set value in password column
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
+    #
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
@@ -80,12 +88,15 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'<User {self.username}>'
 
+#collection class
 class Collection(db.Model):
+    #columns in the collection table
     id = db.Column(db.Integer, primary_key=True)
     plant_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     start_date = db.Column(db.DateTime, default=datetime.utcnow)
 
+#loading user
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
