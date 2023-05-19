@@ -34,13 +34,24 @@
         </p>
     </div>
 </center>
-
-{% if user == current_user %}
-{% for post in posts %}
-<p>
-    {{ post.author.usename }} says: <b>{{ post.body }}</b>
-</p>
-{% endfor %}
-{% endif %}
+<br>
+<center>
+    <div class = "smallerTitle">{{user.username}}'s Posts</div>
+    {% for post in list_of_posts %}
+    <p>
+        <article class="media content-section">
+            {# <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> #}
+            <div class="media-body">
+                <div class="article-metadata">
+                <a class="mr-2" href="{{url_for('profile', username=post.author.username)}}">{{ post.author.username }}</a>
+                <small class="text-muted">{{ post.time_posted.strftime('%Y-%m-%d') }}</small>
+                </div>
+                <h2><a class="article-title" href="{{ url_for('post', post_id=post.post_id) }}">{{ post.post_title }}</a></h2>
+                <p class="article-content">{{ post.post_content }}</p>
+            </div>
+            </article>
+    </p>
+    {% endfor %}
+</center>
 
 {% endblock %}

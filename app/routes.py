@@ -139,7 +139,9 @@ def delete(username):
 def profile(username):
     form = SearchForm()
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('profile.html', user=user, form=form)
+    #filter posts by author and descending order by time
+    list_of_posts = Post.query.filter_by(author=user).order_by(Post.time_posted.desc()).all() #Post.query.all()
+    return render_template('profile.html', user=user, list_of_posts=list_of_posts, form=form)
 
 #edit profile
 @plant_app.route('/user/<username>/profile/edit', methods=['POST', 'GET'])
