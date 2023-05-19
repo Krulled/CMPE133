@@ -357,6 +357,19 @@ def post(post_id):
     return render_template('post.html', post=post, form=current_form,
                             post_comments=post_comments, image=image_rel_path)
 
+# delete a post 
+@plant_app.route('/post/<int:post_id>/delete', methods=['POST', 'GET'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.filter_by(post_id=post_id).first_or_404()
+    # if post.author_id != user.id:
+    #     flash('This post can only be deleted by its author')
+    #     return redirect(url_for('post', post_id=post_id))
+    db.session.delete(post)
+    db.session.commit()
+    flash('Post deleted successfully!')
+    return redirect(url_for('home', username = current_user.username))    #redirect to home
+
 @plant_app.route('/search', methods = ['GET', 'POST'])
 @login_required
 def search():

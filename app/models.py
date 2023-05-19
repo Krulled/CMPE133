@@ -14,7 +14,7 @@ class Post(db.Model):
     time_posted = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)       
     post_content = db.Column(db.Text, nullable = False)
     image = db.Column(db.String(256), nullable = True) # name of the image uploaded, NOT the image data itself
-    comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    comments = db.relationship('Comment', backref='post', lazy='dynamic', cascade='all, delete')
     # comments should be added as a db relationship (one post to many comments)
     # number_of_likes = db.Column(db.Integer(), nullable = False)
 
