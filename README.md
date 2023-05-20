@@ -5,6 +5,7 @@ This application was made using the languages listed below.
 - Python
 - HTML
 - CSS
+- Javascript
 Therefore, please install Python on your computer using the terminal. Also, please ensure that you have pip installed. If not, please install it.
 
 You can follow these links:
